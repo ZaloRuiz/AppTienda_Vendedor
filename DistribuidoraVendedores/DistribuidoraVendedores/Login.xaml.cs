@@ -22,12 +22,12 @@ namespace DistribuidoraVendedores
 		{
 			InitializeComponent();
 		}
-		
+
 		private async void btnIngresar_Clicked(object sender, EventArgs e)
 		{
-			if(entryUsuario.Text != string.Empty)
+			if (!string.IsNullOrWhiteSpace(entryUsuario.Text) || (!string.IsNullOrEmpty(entryUsuario.Text)))
 			{
-				if(entryPassword.Text != string.Empty)
+				if(!string.IsNullOrWhiteSpace(entryPassword.Text) || (!string.IsNullOrEmpty(entryPassword.Text)))
 				{
 					await PopupNavigation.Instance.PushAsync(new BusyPopup(BusyReason));
 					try
@@ -44,7 +44,6 @@ namespace DistribuidoraVendedores
 								{
 									App._Id_Vendedor = item.id_vendedor;
 									App._Nombre_Vendedor = item.nombre;
-									entryUsuario.Text = string.Empty;
 									entryPassword.Text = string.Empty;
 									await Navigation.PushModalAsync(new Menu());
 									
@@ -63,6 +62,7 @@ namespace DistribuidoraVendedores
 						//await PopupNavigation.Instance.PopAsync();
 						await DisplayAlert("Error", err.ToString(), "OK");
 					}
+					await PopupNavigation.Instance.PopAsync();
 				}
 				else
 				{
@@ -73,7 +73,6 @@ namespace DistribuidoraVendedores
 			{
 				await DisplayAlert("Campo vacio", "El campo de Usuario esta vacio", "Ok");
 			}
-			await PopupNavigation.Instance.PopAsync();
 		}
 	}
 }

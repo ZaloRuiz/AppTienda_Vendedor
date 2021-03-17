@@ -106,7 +106,6 @@ namespace DistribuidoraVendedores.Compra
 					await DisplayAlert("Error", err.ToString(), "OK");
 				}
 			}
-
 		}
 		string pickedTP;
 		private async void picker_TP_SelectedIndexChanged(object sender, EventArgs e)
@@ -200,11 +199,11 @@ namespace DistribuidoraVendedores.Compra
 		private async void agregarAlista_Clicked(object sender, EventArgs e)
 		{
 
-			if (txtPrecio.Text != string.Empty)
+			if (!string.IsNullOrWhiteSpace(txtPrecio.Text) || (!string.IsNullOrEmpty(txtPrecio.Text)))
 			{
-				if (txtCantidad.Text != string.Empty)
+				if (!string.IsNullOrWhiteSpace(txtCantidad.Text) || (!string.IsNullOrEmpty(txtCantidad.Text)))
 				{
-					if (txtDescuento.Text != string.Empty)
+					if (!string.IsNullOrWhiteSpace(txtDescuento.Text) || (!string.IsNullOrEmpty(txtDescuento.Text)))
 					{
 						try
 						{
@@ -244,17 +243,17 @@ namespace DistribuidoraVendedores.Compra
 					}
 					else
 					{
-						await DisplayAlert("Error", "El campo de descuento no puede estar vacio", "Ok");
+						await DisplayAlert("Error", "El campo de Descuento no puede estar vacio", "Ok");
 					}
 				}
 				else
 				{
-					await DisplayAlert("Error", "El campo de cantidad no puede estar vacio", "Ok");
+					await DisplayAlert("Error", "El campo de Cantidad no puede estar vacio", "Ok");
 				}
 			}
 			else
 			{
-				await DisplayAlert("Error", "El campo de precio no puede estar vacio", "Ok");
+				await DisplayAlert("Error", "El campo de Precio no puede estar vacio", "Ok");
 			}
 		}
 		private async void listProductos_ItemTapped(object sender, ItemTappedEventArgs e)
@@ -285,94 +284,115 @@ namespace DistribuidoraVendedores.Compra
 		}
 		private async void btnCompraGuardar_Clicked(object sender, EventArgs e)
 		{
-			try
+			if (!string.IsNullOrWhiteSpace(numero_facturaCompraEntry.Text) || (!string.IsNullOrEmpty(numero_facturaCompraEntry.Text)))
 			{
-				if (App._detalleCData.Count() > 0)
+				if (!string.IsNullOrWhiteSpace(saldo_CompraEntry.Text) || (!string.IsNullOrEmpty(saldo_CompraEntry.Text)))
 				{
-					foreach (var item in App._detalleCData)
+					if (!string.IsNullOrWhiteSpace(totalCompraEntry.Text) || (!string.IsNullOrEmpty(totalCompraEntry.Text)))
 					{
-						DetalleCompra detalleCompra = new DetalleCompra()
+						try
 						{
-							cantidad_compra = item.cantidad,
-							id_producto = item.id_producto,
-							precio_producto = item.precio_producto,
-							descuento_producto = item.descuento,
-							sub_total = item.sub_total,
-							numero_factura = Convert.ToInt32(numero_facturaCompraEntry.Text)
-						};
+							if (App._detalleCData.Count() > 0)
+							{
+								foreach (var item in App._detalleCData)
+								{
+									DetalleCompra detalleCompra = new DetalleCompra()
+									{
+										cantidad_compra = item.cantidad,
+										id_producto = item.id_producto,
+										precio_producto = item.precio_producto,
+										descuento_producto = item.descuento,
+										sub_total = item.sub_total,
+										numero_factura = Convert.ToInt32(numero_facturaCompraEntry.Text)
+									};
 
-						var json1 = JsonConvert.SerializeObject(detalleCompra);
-						var content1 = new StringContent(json1, Encoding.UTF8, "application/json");
-						HttpClient client1 = new HttpClient();
-						var result1 = await client1.PostAsync("https://dmrbolivia.com/api_distribuidora/compras/agregarDetalleCompra.php", content1);
+									var json1 = JsonConvert.SerializeObject(detalleCompra);
+									var content1 = new StringContent(json1, Encoding.UTF8, "application/json");
+									HttpClient client1 = new HttpClient();
+									var result1 = await client1.PostAsync("https://dmrbolivia.com/api_distribuidora/compras/agregarDetalleCompra.php", content1);
 
-						Models.Inventario _inventario = new Models.Inventario()
+									Models.Inventario _inventario = new Models.Inventario()
+									{
+										id_producto = item.id_producto,
+										fecha_inv = fechaCompraEntry.Date,
+										numero_factura = Convert.ToInt32(numero_facturaCompraEntry.Text),
+										detalle = "Compra",
+										precio_compra = item.precio_producto - item.descuento,
+										unidades = item.cantidad,
+										entrada_fisica = item.cantidad,
+										salida_fisica = 0,
+										saldo_fisica = item.stock + item.cantidad,
+										entrada_valorado = (item.precio_producto - item.descuento) * item.cantidad,
+										salida_valorado = 0,
+										saldo_valorado = item.stock_valorado + ((item.precio_producto - item.descuento) * item.cantidad),
+										promedio = ((item.stock_valorado + (item.precio_producto - item.descuento)) * item.cantidad) / item.stock + item.cantidad
+									};
+
+									var json2 = JsonConvert.SerializeObject(_inventario);
+									var content2 = new StringContent(json2, Encoding.UTF8, "application/json");
+									HttpClient client2 = new HttpClient();
+									var result2 = await client2.PostAsync("https://dmrbolivia.com/api_distribuidora/inventarios/agregarInventario.php", content2);
+
+									Models.Producto producto = new Models.Producto()
+									{
+										id_producto = item.id_producto,
+										stock = item.stock + item.cantidad,
+										stock_valorado = item.stock_valorado + (item.cantidad * item.promedio),
+										promedio = (item.stock_valorado + ((item.precio_producto - item.descuento) * item.cantidad)) / (item.stock + item.cantidad)
+									};
+									var json3 = JsonConvert.SerializeObject(producto);
+									var content3 = new StringContent(json3, Encoding.UTF8, "application/json");
+									HttpClient client3 = new HttpClient();
+									var result3 = await client3.PostAsync("https://dmrbolivia.com/api_distribuidora/productos/editarProducto.php", content3);
+								}
+								Compras _compras = new Compras()
+								{
+									fecha_compra = fechaCompraEntry.Date,
+									numero_factura = Convert.ToInt32(numero_facturaCompraEntry.Text),
+									id_proveedor = idProveedorSelected,
+									saldo = Convert.ToDecimal(saldo_CompraEntry.Text),
+									total = Convert.ToDecimal(totalCompraEntry.Text)
+								};
+
+								var json = JsonConvert.SerializeObject(_compras);
+								var content = new StringContent(json, Encoding.UTF8, "application/json");
+								HttpClient client = new HttpClient();
+								var result = await client.PostAsync("https://dmrbolivia.com/api_distribuidora/compras/agregarCompra.php", content);
+								if (result.StatusCode == HttpStatusCode.OK)
+								{
+									await DisplayAlert("OK", "Se agrego correctamente", "OK");
+									App._detalleCData.Clear();
+									await Navigation.PopAsync();
+								}
+								else
+								{
+									await DisplayAlert("Error", result.StatusCode.ToString(), "OK");
+									await Navigation.PopAsync();
+								}
+							}
+							else
+							{
+								await DisplayAlert("Error", "Agregue productos a la lista", "OK");
+							}
+						}
+						catch (Exception error)
 						{
-							id_producto = item.id_producto,
-							fecha_inv = fechaCompraEntry.Date,
-							numero_factura = Convert.ToInt32(numero_facturaCompraEntry.Text),
-							detalle = "Compra",
-							precio_compra = item.precio_producto - item.descuento,
-							unidades = item.cantidad,
-							entrada_fisica = item.cantidad,
-							salida_fisica = 0,
-							saldo_fisica = item.stock + item.cantidad,
-							entrada_valorado = (item.precio_producto - item.descuento) * item.cantidad,
-							salida_valorado = 0,
-							saldo_valorado = item.stock_valorado + ((item.precio_producto - item.descuento) * item.cantidad),
-							promedio = ((item.stock_valorado + (item.precio_producto - item.descuento)) * item.cantidad) / item.stock + item.cantidad
-						};
-
-						var json2 = JsonConvert.SerializeObject(_inventario);
-						var content2 = new StringContent(json2, Encoding.UTF8, "application/json");
-						HttpClient client2 = new HttpClient();
-						var result2 = await client2.PostAsync("https://dmrbolivia.com/api_distribuidora/inventarios/agregarInventario.php", content2);
-
-						Models.Producto producto = new Models.Producto()
-						{
-							id_producto = item.id_producto,
-							stock = item.stock + item.cantidad,
-							stock_valorado = item.stock_valorado + (item.cantidad * item.promedio),
-							promedio = (item.stock_valorado + ((item.precio_producto - item.descuento) * item.cantidad)) / (item.stock + item.cantidad)
-						};
-						var json3 = JsonConvert.SerializeObject(producto);
-						var content3 = new StringContent(json3, Encoding.UTF8, "application/json");
-						HttpClient client3 = new HttpClient();
-						var result3 = await client3.PostAsync("https://dmrbolivia.com/api_distribuidora/productos/editarProducto.php", content3);
-					}
-					Compras _compras = new Compras()
-					{
-						fecha_compra = fechaCompraEntry.Date,
-						numero_factura = Convert.ToInt32(numero_facturaCompraEntry.Text),
-						id_proveedor = idProveedorSelected,
-						saldo = Convert.ToDecimal(saldo_CompraEntry.Text),
-						total = Convert.ToDecimal(totalCompraEntry.Text)
-					};
-
-					var json = JsonConvert.SerializeObject(_compras);
-					var content = new StringContent(json, Encoding.UTF8, "application/json");
-					HttpClient client = new HttpClient();
-					var result = await client.PostAsync("https://dmrbolivia.com/api_distribuidora/compras/agregarCompra.php", content);
-					if (result.StatusCode == HttpStatusCode.OK)
-					{
-						await DisplayAlert("OK", "Se agrego correctamente", "OK");
-						App._detalleCData.Clear();
-						await Navigation.PopAsync();
+							await DisplayAlert("Error", error.ToString(), "OK");
+						}
 					}
 					else
 					{
-						await DisplayAlert("Error", result.StatusCode.ToString(), "OK");
-						await Navigation.PopAsync();
+						await DisplayAlert("Campo vacio", "El campo de Total esta vacio", "Ok");
 					}
 				}
 				else
 				{
-					await DisplayAlert("Error", "Agregue productos a la lista", "OK");
+					await DisplayAlert("Campo vacio", "El campo de Saldo esta vacio", "Ok");
 				}
 			}
-			catch (Exception error)
+			else
 			{
-				await DisplayAlert("Error", error.ToString(), "OK");
+				await DisplayAlert("Campo vacio", "El campo de Factura esta vacio", "Ok");
 			}
 		}
 	}

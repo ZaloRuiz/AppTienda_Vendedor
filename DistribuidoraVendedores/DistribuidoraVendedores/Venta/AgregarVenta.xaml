@@ -17,12 +17,7 @@
                         SelectedItem="{Binding nombre_cliente}"
                         SelectedIndexChanged="ClientePicker_SelectedIndexChanged_1"
                             HorizontalOptions="FillAndExpand"/>
-                    <Picker x:Name="vendedorPicker" Title="Vendedor"
-                        ItemsSource="{Binding nombre}"
-                        ItemDisplayBinding="{Binding nombre}"
-                        SelectedItem="{Binding nombre}"
-                        SelectedIndexChanged="VendedorPicker_SelectedIndexChanged"
-                            HorizontalOptions="FillAndExpand"/>
+                    <Entry x:Name="vendedorEntry" Placeholder="Vendedor" TextColor="#4dcce8" HorizontalOptions="FillAndExpand" IsReadOnly="True"/>
                     <Entry x:Name="numero_facturaVentaEntry" Placeholder="Numero de factura" Keyboard="Numeric" HorizontalOptions="FillAndExpand"/>
                     <DatePicker x:Name="fechaVentaEntry" MaximumDate="12/31/2030" Format="dd/MM/yyyy" MinimumDate="01/01/2010" HorizontalOptions="FillAndExpand"/>
                 </StackLayout>
@@ -37,7 +32,8 @@
                                                           PlaceholderText="Buscar producto.." VerticalOptions="EndAndExpand" TextColor="Black"/>
                                 </StackLayout>
                                 <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
-                                    <Entry x:Name="txtStock" TextColor="Black" Placeholder="Stock" VerticalOptions="Center" HorizontalOptions="FillAndExpand" IsReadOnly="True"/>
+                                    <Entry x:Name="txtStock" TextColor="Black" Placeholder="Stock" VerticalOptions="Center" HorizontalOptions="FillAndExpand" 
+                                           IsReadOnly="True"/>
                                     <Entry x:Name="txtPrecio" Placeholder="Precio" TextColor="Black" HorizontalOptions="FillAndExpand" VerticalOptions="Center"
                                         IsReadOnly="True"/>
                                     <Entry x:Name="txtDescuento" Placeholder="Descuento" HorizontalOptions="FillAndExpand" VerticalOptions="Center"
