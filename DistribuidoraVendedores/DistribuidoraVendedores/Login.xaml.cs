@@ -1,0 +1,79 @@
+﻿using DistribuidoraVendedores.Helpers;
+using DistribuidoraVendedores.Models;
+using Newtonsoft.Json;
+using Rg.Plugins.Popup.Services;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
+
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
+
+namespace DistribuidoraVendedores
+{
+	[XamlCompilation(XamlCompilationOptions.Compile)]
+	public partial class Login : ContentPage
+	{
+		string BusyReason = "Ingresando";
+		public Login()
+		{
+			InitializeComponent();
+		}
+		
+		private async void btnIngresar_Clicked(object sender, EventArgs e)
+		{
+			if(entryUsuario.Text != string.Empty)
+			{
+				if(entryPassword.Text != string.Empty)
+				{
+					await PopupNavigation.Instance.PushAsync(new BusyPopup(BusyReason));
+					try
+					{
+						HttpClient client = new HttpClient();
+						var response = await client.GetStringAsync("https://dmrbolivia.com/api_distribuidora/vendedores/listaVendedores.php");
+						var vendedores = JsonConvert.DeserializeObject<List<Vendedores>>(response);
+
+						foreach (var item in vendedores)
+						{
+							if (entryUsuario.Text.ToLower() == item.usuario)
+							{
+								if (entryPassword.Text.ToLower() == item.password)
+								{
+									App._Id_Vendedor = item.id_vendedor;
+									App._Nombre_Vendedor = item.nombre;
+									entryUsuario.Text = string.Empty;
+									entryPassword.Text = string.Empty;
+									await Navigation.PushModalAsync(new Menu());
+									
+								}
+								else
+								{
+									await PopupNavigation.Instance.PopAsync();
+									entryPassword.Text = string.Empty;
+									await DisplayAlert("Error", "Contraseña incorrecta", "Ok");
+								}
+							}
+						}
+					}
+					catch(Exception err)
+					{
+						//await PopupNavigation.Instance.PopAsync();
+						await DisplayAlert("Error", err.ToString(), "OK");
+					}
+				}
+				else
+				{
+					await DisplayAlert("Campo vacio", "El campo de Contraseña esta vacio", "Ok");
+				}
+			}
+			else
+			{
+				await DisplayAlert("Campo vacio", "El campo de Usuario esta vacio", "Ok");
+			}
+			await PopupNavigation.Instance.PopAsync();
+		}
+	}
+}
