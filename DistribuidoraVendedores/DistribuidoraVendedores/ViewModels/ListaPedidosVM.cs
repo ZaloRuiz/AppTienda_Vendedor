@@ -68,6 +68,9 @@ namespace DistribuidoraVendedores.ViewModels
 		{
 			try
 			{
+				_listaPedidosEnt.Clear();
+				_listaPedidosPen.Clear();
+				_listaPedidosCanc.Clear();
 				HttpClient client = new HttpClient();
 				var response = await client.GetStringAsync("https://dmrbolivia.com/api_distribuidora/ventas/listaVentaNombre.php");
 				var lista_ventas = JsonConvert.DeserializeObject<List<VentasNombre>>(response);
