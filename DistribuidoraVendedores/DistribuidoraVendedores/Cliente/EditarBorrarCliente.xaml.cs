@@ -66,11 +66,8 @@ namespace DistribuidoraVendedores.Cliente
                                                     };
 
                                                     var json = JsonConvert.SerializeObject(cliente);
-
                                                     var content = new StringContent(json, Encoding.UTF8, "application/json");
-
                                                     HttpClient client = new HttpClient();
-
                                                     var result = await client.PostAsync("https://dmrbolivia.com/api_distribuidora/clientes/editarCliente.php", content);
 
                                                     if (result.StatusCode == HttpStatusCode.OK)
@@ -80,13 +77,13 @@ namespace DistribuidoraVendedores.Cliente
                                                     }
                                                     else
                                                     {
-                                                        await DisplayAlert("ERROR", result.StatusCode.ToString(), "OK");
+                                                        await DisplayAlert("ERROR", "Algo salio mal, intentelo de nuevo por favor", "OK");
                                                         await Navigation.PopAsync();
                                                     }
                                                 }
                                                 catch (Exception err)
                                                 {
-                                                    await DisplayAlert("ERROR", err.ToString(), "OK");
+                                                    await DisplayAlert("ERROR", "Algo salio mal, intentelo de nuevo por favor", "OK");
                                                 }
                                                 break;
                                             case "NO":
@@ -140,13 +137,9 @@ namespace DistribuidoraVendedores.Cliente
                         {
                             id_cliente = IdCliente,
                         };
-
                         var json = JsonConvert.SerializeObject(cliente);
-
                         var content = new StringContent(json, Encoding.UTF8, "application/json");
-
                         HttpClient client = new HttpClient();
-
                         var result = await client.PostAsync("https://dmrbolivia.com/api_distribuidora/clientes/borrarCliente.php", content);
 
                         if (result.StatusCode == HttpStatusCode.OK)
@@ -156,13 +149,13 @@ namespace DistribuidoraVendedores.Cliente
                         }
                         else
                         {
-                            await DisplayAlert("ERROR", result.StatusCode.ToString(), "OK");
+                            await DisplayAlert("Error", "Algo salio mal, intentelo de nuevo por favor", "OK");
                             await Navigation.PopAsync();
                         }
                     }
                     catch (Exception err)
                     {
-                        await DisplayAlert("ERROR", err.ToString(), "OK");
+                        await DisplayAlert("Error", "Algo salio mal, intentelo de nuevo por favor", "OK");
                     }
                     break;
                 case "NO":
@@ -190,15 +183,15 @@ namespace DistribuidoraVendedores.Cliente
             }
             catch (FeatureNotSupportedException fnsEx)
             {
-                await DisplayAlert("Faild", fnsEx.Message, "OK");
+                await DisplayAlert("Error", "Algo salio mal, intentelo de nuevo por favor", "OK");
             }
             catch (PermissionException pEx)
             {
-                await DisplayAlert("Faild", pEx.Message, "OK");
+                await DisplayAlert("Error", "Algo salio mal, intentelo de nuevo por favor", "OK");
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Faild", ex.Message, "OK");
+                await DisplayAlert("Error", "Algo salio mal, intentelo de nuevo por favor", "OK");
             }
         }
         private void ToolbarItem_Clicked(object sender, EventArgs e)

@@ -22,10 +22,10 @@ namespace DistribuidoraVendedores.Droid
 
             this.Window.AddFlags(WindowManagerFlags.KeepScreenOn);
 
-            //Xamarin.Forms.DataGrid.DataGridComponent.Init();
+            Xamarin.Forms.DataGrid.DataGridComponent.Init();
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
-            //global::Xamarin.Forms.FormsMaterial.Init(this, savedInstanceState);
+            global::Xamarin.Forms.FormsMaterial.Init(this, savedInstanceState);
             Rg.Plugins.Popup.Popup.Init(this);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
 

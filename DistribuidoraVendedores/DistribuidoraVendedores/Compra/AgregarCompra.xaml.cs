@@ -1,5 +1,6 @@
 ﻿using DistribuidoraVendedores.Models;
 using Newtonsoft.Json;
+using Plugin.Connectivity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,15 +25,29 @@ namespace DistribuidoraVendedores.Compra
 		public AgregarCompra()
 		{
 			InitializeComponent();
-			App._detalleCData.Clear();
-			GetDataProveedor();
-			GetTipoProducto();
-			GetProductos();
 		}
-		protected override void OnAppearing()
+		protected async override void OnAppearing()
 		{
-			listProductos.ItemsSource = App._detalleCData;
 			base.OnAppearing();
+			if (CrossConnectivity.Current.IsConnected)
+			{
+				try
+				{
+					App._detalleCData.Clear();
+					GetDataProveedor();
+					GetTipoProducto();
+					GetProductos();
+					listProductos.ItemsSource = App._detalleCData;
+				}
+				catch (Exception err)
+				{
+					await DisplayAlert("Error", "Algo salio mal, intentelo de nuevo por favor", "OK");
+				}
+			}
+			else
+			{
+				await DisplayAlert("Error", "Necesitas estar conectado a internet", "OK");
+			}
 		}
 		private async void GetDataProveedor()
 		{
@@ -49,7 +64,7 @@ namespace DistribuidoraVendedores.Compra
 			}
 			catch (Exception error)
 			{
-				await DisplayAlert("Error", error.ToString(), "OK");
+				await DisplayAlert("Error", "Algo salio mal, intentelo de nuevo por favor", "OK");
 			}
 		}
 		private async void GetTipoProducto()
@@ -63,7 +78,7 @@ namespace DistribuidoraVendedores.Compra
 			}
 			catch (Exception error)
 			{
-				await DisplayAlert("Error", error.ToString(), "OK");
+				await DisplayAlert("Error", "Algo salio mal, intentelo de nuevo por favor", "OK");
 			}
 		}
 		public async void GetProductos()
@@ -80,7 +95,7 @@ namespace DistribuidoraVendedores.Compra
 			}
 			catch (Exception error)
 			{
-				await DisplayAlert("Error", error.ToString(), "OK");
+				await DisplayAlert("Error", "Algo salio mal, intentelo de nuevo por favor", "OK");
 			}
 		}
 		private string proveedorPick;
@@ -103,7 +118,7 @@ namespace DistribuidoraVendedores.Compra
 				}
 				catch (Exception err)
 				{
-					await DisplayAlert("Error", err.ToString(), "OK");
+					await DisplayAlert("Error", "Algo salio mal, intentelo de nuevo por favor", "OK");
 				}
 			}
 		}
@@ -130,7 +145,7 @@ namespace DistribuidoraVendedores.Compra
 			}
 			catch (Exception error)
 			{
-				await DisplayAlert("Error", error.ToString(), "OK");
+				await DisplayAlert("Error", "Algo salio mal, intentelo de nuevo por favor", "OK");
 			}
 		}
 		string pickedProducto;
@@ -174,7 +189,7 @@ namespace DistribuidoraVendedores.Compra
 		decimal descuentoSelected = 0;
 		decimal precioFinalSelected = 0;
 		decimal subTotalSelected = 0;
-		decimal stockSelected = 0;
+		int stockSelected = 0;
 		decimal stockValoradoSelected = 0;
 		decimal promedioSelected = 0;
 		private async void txtDescuento_Completed(object sender, EventArgs e)
@@ -184,7 +199,7 @@ namespace DistribuidoraVendedores.Compra
 				precioSelected = Convert.ToDecimal(txtPrecio.Text);
 				cantidaSelected = Convert.ToInt32(txtCantidad.Text);
 				descuentoSelected = Convert.ToDecimal(txtDescuento.Text);
-				stockSelected = Convert.ToDecimal(txtStock.Text);
+				stockSelected = Convert.ToInt32(txtStock.Text);
 				stockValoradoSelected = Convert.ToDecimal(txtStockValorado.Text);
 				promedioSelected = Convert.ToDecimal(txtPromedio.Text);
 				precioFinalSelected = precioSelected - descuentoSelected;
@@ -193,7 +208,7 @@ namespace DistribuidoraVendedores.Compra
 			}
 			catch (Exception err)
 			{
-				await DisplayAlert("Error", err.ToString(), "OK");
+				await DisplayAlert("Error", "Algo salio mal, intentelo de nuevo por favor", "OK");
 			}
 		}
 		private async void agregarAlista_Clicked(object sender, EventArgs e)
@@ -238,7 +253,7 @@ namespace DistribuidoraVendedores.Compra
 						}
 						catch (Exception err)
 						{
-							await DisplayAlert("Error", err.ToString(), "OK");
+							await DisplayAlert("Error", "Algo salio mal, intentelo de nuevo por favor", "OK");
 						}
 					}
 					else
@@ -275,7 +290,7 @@ namespace DistribuidoraVendedores.Compra
 					}
 					catch (Exception err)
 					{
-						await DisplayAlert("Error", err.ToString(), "OK");
+						await DisplayAlert("Error", "Algo salio mal, intentelo de nuevo por favor", "OK");
 					}
 					break;
 				case "NO":
@@ -366,7 +381,7 @@ namespace DistribuidoraVendedores.Compra
 								}
 								else
 								{
-									await DisplayAlert("Error", result.StatusCode.ToString(), "OK");
+									await DisplayAlert("Error", "Algo salio mal, intentelo de nuevo por favor", "OK");
 									await Navigation.PopAsync();
 								}
 							}
@@ -377,7 +392,7 @@ namespace DistribuidoraVendedores.Compra
 						}
 						catch (Exception error)
 						{
-							await DisplayAlert("Error", error.ToString(), "OK");
+							await DisplayAlert("Error", "Algo salio mal, intentelo de nuevo por favor", "OK");
 						}
 					}
 					else

@@ -1,5 +1,6 @@
 ﻿using DistribuidoraVendedores.Models;
 using Newtonsoft.Json;
+using Plugin.Connectivity;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -28,20 +29,33 @@ namespace DistribuidoraVendedores.Producto
 		protected async override void OnAppearing()
 		{
 			base.OnAppearing();
-
-			HttpClient client = new HttpClient();
-			var response = await client.GetStringAsync("https://dmrbolivia.com/api_distribuidora/productos/listaProductoNombres.php");
-			var productos = JsonConvert.DeserializeObject<List<ProductoNombre>>(response);
-
-			foreach (var item in productos)
+			if (CrossConnectivity.Current.IsConnected)
 			{
-				_listProdNom.Add(item);
+				try
+				{
+					HttpClient client = new HttpClient();
+					var response = await client.GetStringAsync("https://dmrbolivia.com/api_distribuidora/productos/listaProductoNombres.php");
+					var productos = JsonConvert.DeserializeObject<List<ProductoNombre>>(response);
+
+					foreach (var item in productos)
+					{
+						_listProdNom.Add(item);
+					}
+					listaProd.ItemsSource = _listProdNom;
+					btnOrdNombre.Clicked += (sender, args) => listaProd.ItemsSource = _listProdNom.OrderBy(x => x.nombre_producto).ToList();
+					btnOrdStock.Clicked += (sender, args) => listaProd.ItemsSource = _listProdNom.OrderBy(x => x.stock).ToList();
+				}
+				catch (Exception err)
+				{
+					await DisplayAlert("Error", "Algo salio mal, intentelo de nuevo por favor", "OK");
+				}
 			}
-			listaProd.ItemsSource = _listProdNom;
-			btnOrdNombre.Clicked += (sender, args) => listaProd.ItemsSource = _listProdNom.OrderBy(x => x.nombre_producto).ToList();
-			btnOrdStock.Clicked += (sender, args) => listaProd.ItemsSource = _listProdNom.OrderBy(x => x.stock).ToList();
+			else
+			{
+				await DisplayAlert("Error", "Necesitas estar conectado a internet", "OK");
+			}
 		}
-		private async void OnItemSelected(object sender, ItemTappedEventArgs e)
+		private void OnItemSelected(object sender, ItemTappedEventArgs e)
 		{
 			//var detalles = e.Item as Models.ProductoNombre;
 			//await Navigation.PushAsync(new EditarBorrarProducto(detalles.id_producto, detalles.nombre_producto, detalles.nombre_tipo_producto, detalles.stock,

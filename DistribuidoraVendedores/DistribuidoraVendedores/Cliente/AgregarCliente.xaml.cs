@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Plugin.Connectivity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,9 +16,38 @@ namespace DistribuidoraVendedores.Cliente
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class AgregarCliente : ContentPage
 	{
+		private int _codigo_cliente;
+		private int _contador_cliente;
 		public AgregarCliente()
 		{
 			InitializeComponent();
+		}
+		protected async override void OnAppearing()
+		{
+			base.OnAppearing();
+			if (CrossConnectivity.Current.IsConnected)
+			{
+				try
+				{
+					HttpClient client = new HttpClient();
+					var response = await client.GetStringAsync("https://dmrbolivia.com/api_distribuidora/clientes/listaCodigoCliente.php");
+					var c_cliente = JsonConvert.DeserializeObject<List<Models.Contador_cliente>>(response);
+
+					foreach (var item in c_cliente)
+					{
+						_contador_cliente = item.c_cont;
+					}
+					_codigo_cliente = _contador_cliente + 1;
+				}
+				catch (Exception err)
+				{
+					await DisplayAlert("Error", "Algo salio mal, intentelo de nuevo por favor", "OK");
+				}
+			}
+			else
+			{
+				await DisplayAlert("Error", "Necesitas estar conectado a internet", "OK");
+			}
 		}
 		private async void BtnGuardarCliente_Clicked(object sender, EventArgs e)
 		{
@@ -27,57 +57,65 @@ namespace DistribuidoraVendedores.Cliente
 				{
 					if (!string.IsNullOrWhiteSpace(direccionEntry.Text) || (!string.IsNullOrEmpty(direccionEntry.Text)))
 					{
-						if (!string.IsNullOrWhiteSpace(ubconfirmacionEntry.Text) || (!string.IsNullOrEmpty(ubconfirmacionEntry.Text)))
+						if (!string.IsNullOrWhiteSpace(ubicacionLatitudEntry.Text) || (!string.IsNullOrEmpty(ubicacionLatitudEntry.Text)))
 						{
-							if (!string.IsNullOrWhiteSpace(razEntry.Text) || (!string.IsNullOrEmpty(razEntry.Text)))
+							if (!string.IsNullOrWhiteSpace(ubicacionLatitudEntry.Text) || (!string.IsNullOrEmpty(ubicacionLatitudEntry.Text)))
 							{
-								if (!string.IsNullOrWhiteSpace(nitEntry.Text) || (!string.IsNullOrEmpty(nitEntry.Text)))
+								if (!string.IsNullOrWhiteSpace(razEntry.Text) || (!string.IsNullOrEmpty(razEntry.Text)))
 								{
-									try
+									if (!string.IsNullOrWhiteSpace(nitEntry.Text) || (!string.IsNullOrEmpty(nitEntry.Text)))
 									{
-										Models.Cliente cliente = new Models.Cliente()
+										try
 										{
-											nombre_cliente = nombreEntry.Text,
-											ubicacion_latitud = ubicacionLatitudEntry.Text,
-											ubicacion_longitud = ubicacionLongitudEntry.Text,
-											telefono = Convert.ToInt32(telefonoEntry.Text),
-											direccion_cliente = direccionEntry.Text,
-											razon_social = razEntry.Text,
-											nit = Convert.ToInt32(nitEntry.Text)
-										};
+											Models.Cliente cliente = new Models.Cliente()
+											{
+												nombre_cliente = nombreEntry.Text,
+												codigo_c = _codigo_cliente,
+												ubicacion_latitud = ubicacionLatitudEntry.Text,
+												ubicacion_longitud = ubicacionLongitudEntry.Text,
+												telefono = Convert.ToInt32(telefonoEntry.Text),
+												direccion_cliente = direccionEntry.Text,
+												razon_social = razEntry.Text,
+												nit = Convert.ToInt32(nitEntry.Text)
+											};
 
-										var json = JsonConvert.SerializeObject(cliente);
+											var json = JsonConvert.SerializeObject(cliente);
 
-										var content = new StringContent(json, Encoding.UTF8, "application/json");
+											var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-										HttpClient client = new HttpClient();
+											HttpClient client = new HttpClient();
 
-										var result = await client.PostAsync("https://dmrbolivia.com/api_distribuidora/clientes/agregarCliente.php", content);
+											var result = await client.PostAsync("https://dmrbolivia.com/api_distribuidora/clientes/agregarCliente.php", content);
 
-										if (result.StatusCode == HttpStatusCode.OK)
-										{
-											await DisplayAlert("GUARDADO", "Se agrego correctamente", "OK");
-											await Navigation.PopAsync();
+											if (result.StatusCode == HttpStatusCode.OK)
+											{
+												await DisplayAlert("GUARDADO", "Se agrego correctamente", "OK");
+												await Navigation.PopAsync();
+											}
+											else
+											{
+												await DisplayAlert("ERROR", "Algo salio mal, intentelo de nuevo por favor", "OK");
+												await Navigation.PopAsync();
+											}
 										}
-										else
+										catch (Exception err)
 										{
-											await DisplayAlert("ERROR", result.StatusCode.ToString(), "OK");
-											await Navigation.PopAsync();
+											await DisplayAlert("ERROR", "Algo salio mal, intentelo de nuevo por favor", "OK");
 										}
 									}
-									catch (Exception err)
+									else
 									{
-										await DisplayAlert("ERROR", err.ToString(), "OK");
+										await DisplayAlert("Campo vacio", "El campo de Nit esta vacio", "Ok");
 									}
 								}
 								else
 								{
-									await DisplayAlert("Campo vacio", "El campo de Nit esta vacio", "Ok");
+									await DisplayAlert("Campo vacio", "El campo de Razon social esta vacio", "Ok");
 								}
 							}
 							else
 							{
-								await DisplayAlert("Campo vacio", "El campo de Razon social esta vacio", "Ok");
+								await DisplayAlert("Campo vacio", "El campo de Ubicacion esta vacio", "Ok");
 							}
 						}
 						else
@@ -115,15 +153,15 @@ namespace DistribuidoraVendedores.Cliente
 			}
 			catch (FeatureNotSupportedException fnsEx)
 			{
-				await DisplayAlert("Faild", fnsEx.Message, "OK");
+				await DisplayAlert("Error", "Algo salio mal, intentelo de nuevo por favor", "OK");
 			}
 			catch (PermissionException pEx)
 			{
-				await DisplayAlert("Faild", pEx.Message, "OK");
+				await DisplayAlert("Error", "Algo salio mal, intentelo de nuevo por favor", "OK");
 			}
 			catch (Exception ex)
 			{
-				await DisplayAlert("Faild", ex.Message, "OK");
+				await DisplayAlert("Error", "Algo salio mal, intentelo de nuevo por favor", "OK");
 			}
 		}
 	}

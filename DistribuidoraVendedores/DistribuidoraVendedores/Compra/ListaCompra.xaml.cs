@@ -1,5 +1,6 @@
 ﻿using DistribuidoraVendedores.Models;
 using Newtonsoft.Json;
+using Plugin.Connectivity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,11 +27,25 @@ namespace DistribuidoraVendedores.Compra
 		protected async override void OnAppearing()
 		{
 			base.OnAppearing();
-			HttpClient client = new HttpClient();
-			var response = await client.GetStringAsync("https://dmrbolivia.com/api_distribuidora/compras/listaCompraNombre.php");
-			var compras = JsonConvert.DeserializeObject<List<ComprasNombre>>(response);
+			if (CrossConnectivity.Current.IsConnected)
+			{
+				try
+				{
+					HttpClient client = new HttpClient();
+					var response = await client.GetStringAsync("https://dmrbolivia.com/api_distribuidora/compras/listaCompraNombre.php");
+					var compras = JsonConvert.DeserializeObject<List<ComprasNombre>>(response);
 
-			listaCompra.ItemsSource = compras;
+					listaCompra.ItemsSource = compras;
+				}
+				catch (Exception err)
+				{
+					await DisplayAlert("Error", "Algo salio mal, intentelo de nuevo por favor", "OK");
+				}
+			}
+			else
+			{
+				await DisplayAlert("Error", "Necesitas estar conectado a internet", "OK");
+			}
 		}
 		private async void OnItemSelected(object sender, ItemTappedEventArgs e)
 		{

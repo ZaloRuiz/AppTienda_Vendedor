@@ -1,5 +1,6 @@
 ﻿using DistribuidoraVendedores.Models;
 using DistribuidoraVendedores.ViewModels;
+using Plugin.Connectivity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,21 @@ namespace DistribuidoraVendedores.Venta
 		protected async override void OnAppearing()
 		{
 			base.OnAppearing();
-			this.BindingContext = new ListaPedidosVM();
+			if (CrossConnectivity.Current.IsConnected)
+			{
+				try
+				{
+					this.BindingContext = new ListaPedidosVM();
+				}
+				catch (Exception err)
+				{
+					await DisplayAlert("Error", "Algo salio mal, intentelo de nuevo por favor", "OK");
+				}
+			}
+			else
+			{
+				await DisplayAlert("Error", "Necesitas estar conectado a internet", "OK");
+			}
 		}
 		private void ToolbarItem_Clicked(object sender, EventArgs e)
 		{

@@ -1,5 +1,6 @@
 ﻿using DistribuidoraVendedores.Models;
 using Newtonsoft.Json;
+using Plugin.Connectivity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,42 @@ namespace DistribuidoraVendedores.Cliente
         protected async override void OnAppearing()
         {
             base.OnAppearing();
+            if (CrossConnectivity.Current.IsConnected)
+            {
+                Items = new List<Ventas>();
+                try
+                {
+                    HttpClient client = new HttpClient();
+                    var response = await client.GetStringAsync("https://dmrbolivia.com/api_distribuidora/ventas/listaVenta.php");
+                    var venta = JsonConvert.DeserializeObject<List<Ventas>>(response);
+                    foreach (var item in venta)
+                    {
+                        if (item.id_cliente == Id_Cliente)
+                        {
+                            Items.Add(new Ventas
+                            {
+                                id_venta = item.id_venta,
+                                fecha = item.fecha,
+                                numero_factura = item.numero_factura,
+                                id_cliente = item.id_cliente,
+                                id_vendedor = item.id_vendedor,
+                                tipo_venta = item.tipo_venta,
+                                saldo = item.saldo,
+                                total = item.total
+                            });
+                        }
+                    }
+                }
+                catch (Exception err)
+                {
+                    await DisplayAlert("ERROR", "Algo salio mal, intentelo de nuevo por favor", "OK");
+                }
+                listaClienteH.ItemsSource = Items;
+            }
+            else
+            {
+                await DisplayAlert("Error", "Necesitas estar conectado a internet", "OK");
+            }
             Items = new List<Ventas>();
             try
             {
@@ -51,7 +88,7 @@ namespace DistribuidoraVendedores.Cliente
             }
             catch (Exception err)
             {
-                await DisplayAlert("ERROR", err.ToString(), "OK");
+                await DisplayAlert("ERROR", "Algo salio mal, intentelo de nuevo por favor", "OK");
             }
             listaClienteH.ItemsSource = Items;
         }

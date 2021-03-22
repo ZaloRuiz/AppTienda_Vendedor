@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DistribuidoraVendedores.ViewModels;
+using Plugin.Connectivity;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -15,7 +16,25 @@ namespace DistribuidoraVendedores.Inventario
 		public Inventario()
 		{
 			InitializeComponent();
-			BindingContext = new InventarioGeneralVM();
+		}
+		protected async override void OnAppearing()
+		{
+			base.OnAppearing();
+			if (CrossConnectivity.Current.IsConnected)
+			{
+				try
+				{
+					BindingContext = new InventarioGeneralVM();
+				}
+				catch (Exception err)
+				{
+					await DisplayAlert("Error", "Algo salio mal, intentelo de nuevo por favor", "OK");
+				}
+			}
+			else
+			{
+				await DisplayAlert("Error", "Necesitas estar conectado a internet", "OK");
+			}
 		}
 		protected override bool OnBackButtonPressed()
 		{
