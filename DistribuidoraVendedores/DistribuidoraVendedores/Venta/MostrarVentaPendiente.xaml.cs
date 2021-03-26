@@ -454,5 +454,41 @@ namespace DistribuidoraVendedores.Venta
 				await Navigation.PopAsync();
 			}
 		}
+
+		private async void toolbarAgreEdit_Clicked(object sender, EventArgs e)
+		{
+			string _resultObs = await DisplayPromptAsync("Solicitar modificacion", "Descripcion:");
+			try
+			{
+				Editar_Venta _editar_venta = new Editar_Venta()
+				{
+					id_venta = _id_venta,
+					id_vendedor = App._Id_Vendedor,
+					descripcion = _resultObs,
+					estado = "Pendiente"
+				};
+
+				var json = JsonConvert.SerializeObject(_editar_venta);
+				var content = new StringContent(json, Encoding.UTF8, "application/json");
+				HttpClient client = new HttpClient();
+				var result = await client.PostAsync("https://dmrbolivia.com/api_distribuidora/ventas/agregarEditarVenta.php", content);
+				if (result.StatusCode == HttpStatusCode.OK)
+				{
+					await DisplayAlert("OK", "Se agrego correctamente", "OK");
+					await Navigation.PopAsync();
+				}
+				else
+				{
+					await PopupNavigation.Instance.PopAsync();
+					await DisplayAlert("Error", "Algo salio mal, intentelo de nuevo por favor", "OK");
+					await Navigation.PopAsync();
+				}
+			}
+			catch (Exception error)
+			{
+				await DisplayAlert("ERROR", "Algo salio mal, intentelo de nuevo por favor", "OK");
+				await Navigation.PopAsync();
+			}
+		}
 	}
 }

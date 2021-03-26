@@ -226,7 +226,7 @@ namespace DistribuidoraVendedores.Compra
 							{
 								cantidad = cantidaSelected,
 								id_producto = idProductoSelected,
-								nombre_producto = pickedTP + " " + pickedProducto,
+								nombre_producto = pickedProducto,
 								precio_producto = precioSelected,
 								descuento = descuentoSelected,
 								sub_total = subTotalSelected,

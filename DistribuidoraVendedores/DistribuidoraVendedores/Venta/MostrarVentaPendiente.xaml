@@ -6,8 +6,9 @@
              BackgroundColor="#324A51"
              Title="Mostrar pedidos pendientes">
     <ContentPage.ToolbarItems>
-        <ToolbarItem x:Name="toolbarComp" Text="Completar pedido" Clicked="ToolbarItemComp_Clicked"/>
-        <ToolbarItem x:Name="toolbarCanc" Text="Cancelar pedido" Clicked="toolbarCanc_Clicked"/>
+        <ToolbarItem x:Name="toolbarComp" Text="Completar pedido" Priority="0" Order="Secondary" Clicked="ToolbarItemComp_Clicked"/>
+        <ToolbarItem x:Name="toolbarCanc" Text="Cancelar pedido" Priority="1" Order="Secondary" Clicked="toolbarCanc_Clicked"/>
+        <ToolbarItem x:Name="toolbarAgreEdit" Text="Solicitar modificacion" Priority="2" Order="Secondary" Clicked="toolbarAgreEdit_Clicked"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <ScrollView>

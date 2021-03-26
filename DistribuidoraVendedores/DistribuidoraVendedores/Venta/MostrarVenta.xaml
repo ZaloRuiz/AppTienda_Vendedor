@@ -5,6 +5,9 @@
              Visual="Material"
              BackgroundColor="#324A51"
              Title="Mostrar pedido">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="toolbarAgreEdit" Text="Solicitar modificacion" Clicked="toolbarAgreEdit_Clicked"/>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <ScrollView>
             <Grid Padding="10">
