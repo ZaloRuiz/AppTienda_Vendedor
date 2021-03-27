@@ -18,15 +18,30 @@
                                 <RowDefinition Height="50"></RowDefinition>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="220"></ColumnDefinition>
+                                <ColumnDefinition Width="100"></ColumnDefinition>
                                 <ColumnDefinition Width="*"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
                             <Label Grid.Row="0" Grid.Column="0" FontSize="Medium" TextColor="#95B0B7" LineBreakMode="TailTruncation">
                                 <Label.FormattedText>
                                     <FormattedString>
+                                        <Span Text="Nombre: "/>
                                         <Span Text="{Binding nombre_cliente}"/>
-                                        <Span Text="  -  "/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            <Label Grid.Row="0" Grid.Column="1" FontSize="Medium" TextColor="#95B0B7" LineBreakMode="TailTruncation">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Codigo: "/>
                                         <Span Text="{Binding codigo_c}"/>
-                                        <Span Text="   -   Telefono: "/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            <Label Grid.Row="0" Grid.Column="2" FontSize="Medium" TextColor="#95B0B7" LineBreakMode="TailTruncation">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Telefono: "/>
                                         <Span Text="{Binding telefono}"/>
                                     </FormattedString>
                                 </Label.FormattedText>
