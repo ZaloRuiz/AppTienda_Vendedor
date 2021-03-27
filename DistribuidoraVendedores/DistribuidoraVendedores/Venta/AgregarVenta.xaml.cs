@@ -42,7 +42,7 @@ namespace DistribuidoraVendedores.Venta
                 {
                     App._detalleVData.Clear();
                     tipoVentaEntry.ItemsSource = new List<string> { "Contado", "Credito" };
-                    estadoEntry.ItemsSource = new List<string> { "Entregado", "Pendiente", "Cancelado" };
+                    estadoEntry.ItemsSource = new List<string> { "Entregado", "Pendiente"};
                     vendedorEntry.Text = App._Nombre_Vendedor;
                     GetDataCliente();
                     GetProductos();

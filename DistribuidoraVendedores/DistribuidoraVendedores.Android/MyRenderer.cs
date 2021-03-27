@@ -32,6 +32,7 @@ namespace DistribuidoraVendedores.Droid
 			if (Control != null)
 			{
 				Control.ImeOptions = (ImeAction)ImeFlags.NoExtractUi; // set keyboard size according to UI
+				Control.TextSize = 14;
 			}
 		}
 	}

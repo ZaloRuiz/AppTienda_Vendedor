@@ -8,19 +8,22 @@
     <ContentPage.Content>
         <ScrollView>
             <StackLayout Padding="20">
-                <Entry x:Name="nombreEntry" HorizontalOptions="FillAndExpand" TextColor="Black" Placeholder="Nombre"/>
-                <Entry x:Name="telefonoEntry" HorizontalOptions="FillAndExpand" TextColor="Black" Placeholder="Telefono" Keyboard="Numeric"/>
-                <Entry x:Name="direccionEntry" HorizontalOptions="FillAndExpand" TextColor="Black" Placeholder="Direccion"/>
+                <Entry x:Name="nombreEntry" HorizontalOptions="FillAndExpand" TextColor="Black" Placeholder="Nombre" FontSize="14" BackgroundColor="White"/>
+                <Entry x:Name="telefonoEntry" HorizontalOptions="FillAndExpand" TextColor="Black" Placeholder="Telefono" Keyboard="Numeric"
+                       FontSize="14" BackgroundColor="White"/>
+                <Entry x:Name="direccionEntry" HorizontalOptions="FillAndExpand" TextColor="Black" Placeholder="Direccion" FontSize="14" BackgroundColor="White"/>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-                    <Entry x:Name="ubconfirmacionEntry" WidthRequest="300" Placeholder="Ubicacion" TextColor="Black" HorizontalOptions="FillAndExpand"/>
+                    <Entry x:Name="ubconfirmacionEntry" WidthRequest="300" Placeholder="Ubicacion" TextColor="Black" HorizontalOptions="FillAndExpand" 
+                           FontSize="14" BackgroundColor="White"/>
                     <Entry x:Name="ubicacionLatitudEntry" IsVisible="False"/>
                     <Entry x:Name="ubicacionLongitudEntry" IsVisible="False"/>
                     <Button x:Name="btnUbicacion" HorizontalOptions="FillAndExpand" Text="Obtener ubicacion" Clicked="BtnUbicacion_Clicked"/>
                 </StackLayout>
-                <Entry x:Name="razEntry" HorizontalOptions="FillAndExpand" Placeholder="Razon Social" TextColor="Black"/>
-                <Entry x:Name="nitEntry" HorizontalOptions="FillAndExpand" Placeholder="NIT" TextColor="Black" Keyboard="Numeric"/>
+                <Entry x:Name="razEntry" HorizontalOptions="FillAndExpand" Placeholder="Razon Social" TextColor="Black" FontSize="14" BackgroundColor="White"/>
+                <Entry x:Name="nitEntry" HorizontalOptions="FillAndExpand" Placeholder="NIT" TextColor="Black" Keyboard="Numeric"
+                       FontSize="14" BackgroundColor="White"/>
                 <StackLayout Padding="0, 20, 0, 20">
-                    <Button Text="Guardar" x:Name="btnGuardarCliente" Clicked="BtnGuardarCliente_Clicked"/>
+                    <Button Text="Guardar" x:Name="btnGuardarCliente" HeightRequest="50" Clicked="BtnGuardarCliente_Clicked"/>
                 </StackLayout>
             </StackLayout>
         </ScrollView>

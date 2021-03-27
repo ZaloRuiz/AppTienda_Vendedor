@@ -33,10 +33,8 @@
                 <DataTemplate>
                     <ViewCell>
                         <StackLayout Padding="15,10" HorizontalOptions="FillAndExpand">
-                            <Label VerticalOptions="FillAndExpand" 
-                    VerticalTextAlignment="Center" 
-                    Text="{Binding Title}" 
-                    FontSize="24" TextColor="#95B0B7"/>
+                            <Label VerticalOptions="FillAndExpand" VerticalTextAlignment="Center" Text="{Binding Title}" FontSize="20" TextColor="#95B0B7"
+                                   HorizontalTextAlignment="Center"/>
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>

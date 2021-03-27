@@ -3,44 +3,45 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="DistribuidoraVendedores.Compra.AgregarCompra"
              Visual="Material"
-             BackgroundColor="#324A51"
+             BackgroundColor="White"
              Title="Agregar compra">
     <ContentPage.Content>
         <ScrollView>
             <StackLayout x:Name="stkCompra" Padding="10">
                 <StackLayout Orientation="Horizontal">
                     <Picker x:Name="proveedorPicker" Title="Proveedor"
-                            ItemsSource="{Binding nombre}" ItemDisplayBinding="{Binding nombre}" SelectedItem="{Binding nombre}"
-                            SelectedIndexChanged="ProveedorPicker_SelectedIndexChanged_1" WidthRequest="150" FontSize="14" VerticalOptions="Center"/>
+                            ItemsSource="{Binding nombre}" ItemDisplayBinding="{Binding nombre}" SelectedItem="{Binding nombre}" BackgroundColor="White"
+                            SelectedIndexChanged="ProveedorPicker_SelectedIndexChanged_1" WidthRequest="250" FontSize="14" VerticalOptions="Center"/>
                     <Entry x:Name="numero_facturaCompraEntry" Placeholder="Numero de factura" Keyboard="Numeric" WidthRequest="180" VerticalOptions="Center"
-                           FontSize="14"/>
+                           FontSize="14" BackgroundColor="White"/>
                     <DatePicker x:Name="fechaCompraEntry" MaximumDate="12/31/2030" MinimumDate="01/01/2019" WidthRequest="120" VerticalOptions="Center"
-                                FontSize="14"/>
+                                FontSize="14" BackgroundColor="White"/>
                 </StackLayout>
                 <StackLayout x:Name="stkProductos" Padding="10">
-                    <Label HorizontalOptions="Start" Text="Agregar Producto" TextColor="#95B0B7" FontSize="14"/>
-                    <Frame HasShadow="True" CornerRadius="10" Padding="0" Margin="0" BorderColor="DarkGray">
+                    <Label HorizontalOptions="Start" Text="Agregar Producto" TextColor="#4DCCE8" FontSize="14"/>
+                    <Frame HasShadow="True" CornerRadius="10" Padding="0" Margin="0" BorderColor="#324A51" BackgroundColor="White">
                         <StackLayout>
                             <StackLayout Orientation="Horizontal">
                                 <Picker x:Name="picker_TP" Title="Tipo producto" HorizontalOptions="FillAndExpand" VerticalOptions="Center" 
-                                            SelectedIndexChanged="picker_TP_SelectedIndexChanged"
+                                            SelectedIndexChanged="picker_TP_SelectedIndexChanged" BackgroundColor="White"
                                             ItemsSource="{Binding nombre_tipo_producto}" ItemDisplayBinding="{Binding nombre_tipo_producto}" 
                                             SelectedItem="{Binding nombre_tipo_producto}" FontSize="14"/>
                                 <Picker x:Name="picker_Producto" Title="Producto" HorizontalOptions="FillAndExpand" VerticalOptions="Center"
-                                            SelectedIndexChanged="picker_Producto_SelectedIndexChanged" 
+                                            SelectedIndexChanged="picker_Producto_SelectedIndexChanged"  BackgroundColor="White"
                                             ItemsSource="{Binding display_text_nombre}" ItemDisplayBinding="{Binding display_text_nombre}" 
                                             SelectedItem="{Binding display_text_nombre}"  FontSize="14"/>
                                 <Entry x:Name="txtPrecio" Placeholder="Precio" TextColor="Black" HorizontalOptions="FillAndExpand" VerticalOptions="Center"
-                                            FontSize="14"/>
+                                            FontSize="14" BackgroundColor="White"/>
                                 <Entry x:Name="txtStock" TextColor="Black" Placeholder="Stock" VerticalOptions="Center" HorizontalOptions="FillAndExpand" 
-                                       IsReadOnly="True"  FontSize="14"/>
+                                       IsReadOnly="True"  FontSize="14" BackgroundColor="White"/>
                             </StackLayout>
                             <StackLayout Orientation="Horizontal">
                                 <Entry x:Name="txtCantidad" Placeholder="Cantidad" HorizontalOptions="FillAndExpand" VerticalOptions="Center"
-                                           Keyboard="Numeric"  FontSize="14"/>
+                                           Keyboard="Numeric"  FontSize="14" BackgroundColor="White"/>
                                 <Entry x:Name="txtDescuento" Placeholder="Descuento" HorizontalOptions="FillAndExpand" VerticalOptions="Center"
-                                        Keyboard="Numeric" Completed="txtDescuento_Completed"  FontSize="14"/>
-                                <Entry x:Name="txtSubTotal" Placeholder="Sub total" HorizontalOptions="FillAndExpand" VerticalOptions="Center"  FontSize="14"/>
+                                        Keyboard="Numeric" Completed="txtDescuento_Completed"  FontSize="14" BackgroundColor="White"/>
+                                <Entry x:Name="txtSubTotal" Placeholder="Sub total" HorizontalOptions="FillAndExpand" VerticalOptions="Center" FontSize="14"
+                                       BackgroundColor="White"/>
                                 <Label x:Name="txtStockValorado" IsVisible="false"/>
                                 <Label x:Name="txtPromedio" IsVisible="false"/>
                                 <Button x:Name="agregarAlista" Text="Agregar" Padding="0" Margin="0" FontSize="12" VerticalOptions="EndAndExpand" 
@@ -51,10 +52,10 @@
                 </StackLayout>
                 <StackLayout>
                     <ListView x:Name="listProductos" HorizontalOptions="FillAndExpand" HeightRequest="150" VerticalScrollBarVisibility="Always" 
-                                  ItemTapped="listProductos_ItemTapped">
+                                  ItemTapped="listProductos_ItemTapped" Visual="Material" SeparatorColor="#4DCCE8" BackgroundColor="#fafafd">
                         <ListView.Header>
                             <StackLayout Orientation="Horizontal">
-                                <Label Text="Lista productos" TextColor="#95B0B7"/>
+                                <Label Text="Lista productos" TextColor="#4DCCE8"/>
                             </StackLayout>
                         </ListView.Header>
                         <ListView.ItemTemplate>
@@ -70,36 +71,36 @@
                                             <ColumnDefinition Width="100"></ColumnDefinition>
                                             <ColumnDefinition Width="200"></ColumnDefinition>
                                         </Grid.ColumnDefinitions>
-                                        <Label Grid.Row="0" Grid.Column="0" FontSize="Medium" TextColor="Black" LineBreakMode="TailTruncation">
+                                        <Label Grid.Row="0" Grid.Column="0" FontSize="Medium" TextColor="Black" VerticalTextAlignment="Center" LineBreakMode="TailTruncation">
                                             <Label.FormattedText>
                                                 <FormattedString>
-                                                    <Span Text="Producto: " FontSize="13"/>
-                                                    <Span Text="{Binding nombre_producto}" FontSize="13"/>
+                                                    <Span Text="Producto: " FontSize="13" TextColor="Black"/>
+                                                    <Span Text="{Binding nombre_producto}" FontSize="13" TextColor="Black"/>
                                                 </FormattedString>
                                             </Label.FormattedText>
                                         </Label>
-                                        <Label Grid.Row="0" Grid.Column="1" FontSize="Medium" TextColor="Black" LineBreakMode="TailTruncation">
+                                        <Label Grid.Row="0" Grid.Column="1" FontSize="Medium" TextColor="Black" VerticalTextAlignment="Center" LineBreakMode="TailTruncation">
                                             <Label.FormattedText>
                                                 <FormattedString>
-                                                    <Span Text="   Cantidad: " FontSize="13"/>
-                                                    <Span Text="{Binding cantidad}" FontSize="13"/>
+                                                    <Span Text="   Cantidad: " FontSize="13" TextColor="Black"/>
+                                                    <Span Text="{Binding cantidad}" FontSize="13" TextColor="Black"/>
                                                 </FormattedString>
                                             </Label.FormattedText>
                                         </Label>
-                                        <Label Grid.Row="0" Grid.Column="2" FontSize="Medium" TextColor="Black" LineBreakMode="TailTruncation">
+                                        <Label Grid.Row="0" Grid.Column="2" FontSize="Medium" TextColor="Black" VerticalTextAlignment="Center" LineBreakMode="TailTruncation">
                                             <Label.FormattedText>
                                                 <FormattedString>
-                                                    <Span Text="   Descuento: " FontSize="13"/>
-                                                    <Span Text="{Binding descuento}" FontSize="13"/>
+                                                    <Span Text="   Descuento: " FontSize="13" TextColor="Black"/>
+                                                    <Span Text="{Binding descuento}" FontSize="13" TextColor="Black"/>
                                                 </FormattedString>
                                             </Label.FormattedText>
                                         </Label>
-                                        <Label Grid.Row="0" Grid.Column="3" FontSize="Medium" TextColor="Black" LineBreakMode="TailTruncation">
+                                        <Label Grid.Row="0" Grid.Column="3" FontSize="Medium" TextColor="Black" VerticalTextAlignment="Center" LineBreakMode="TailTruncation">
                                             <Label.FormattedText>
                                                 <FormattedString>
-                                                    <Span Text="   Subtotal: " FontSize="13"/>
-                                                    <Span Text="{Binding sub_total, StringFormat=' {0:0.00}'}" FontSize="13"/>
-                                                    <Span Text=" Bs." FontSize="13"/>
+                                                    <Span Text="   Subtotal: " FontSize="13" TextColor="Black"/>
+                                                    <Span Text="{Binding sub_total, StringFormat=' {0:0.00}'}" FontSize="13" TextColor="Black"/>
+                                                    <Span Text=" Bs." FontSize="13" TextColor="Black"/>
                                                 </FormattedString>
                                             </Label.FormattedText>
                                         </Label>
@@ -109,9 +110,9 @@
                         </ListView.ItemTemplate>
                     </ListView>
                 </StackLayout>
-                <Entry x:Name="saldo_CompraEntry" Placeholder="Credito" Keyboard="Numeric" Text="0"  FontSize="14" IsVisible="False"/>
-                <Entry x:Name="totalCompraEntry" Keyboard="Numeric" Placeholder="Total"  FontSize="14"/>
-                <Button x:Name="btnCompraGuardar" Text="Guardar" Clicked="btnCompraGuardar_Clicked"/>
+                <Entry x:Name="saldo_CompraEntry" Placeholder="Credito" Keyboard="Numeric" Text="0"  FontSize="14" IsVisible="False" TextColor="Black" BackgroundColor="White"/>
+                <Entry x:Name="totalCompraEntry" Keyboard="Numeric" Placeholder="Total"  FontSize="14" TextColor="Black" BackgroundColor="White"/>
+                <Button x:Name="btnCompraGuardar" Text="Guardar" Clicked="btnCompraGuardar_Clicked" HeightRequest="50"/>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>
