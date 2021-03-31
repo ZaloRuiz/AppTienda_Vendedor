@@ -14,7 +14,7 @@
                     <Picker x:Name="clientePicker" Title="Cliente" ItemsSource="{Binding nombre_cliente}" ItemDisplayBinding="{Binding nombre_cliente}" BackgroundColor="White"
                         SelectedItem="{Binding nombre_cliente}" SelectedIndexChanged="ClientePicker_SelectedIndexChanged_1" HorizontalOptions="FillAndExpand" 
                             FontSize="14" VerticalOptions="Center" />
-                    <Entry x:Name="vendedorEntry" Placeholder="Vendedor" TextColor="#4dcce8" WidthRequest="150" IsReadOnly="True" FontSize="14"
+                    <Entry x:Name="vendedorEntry" Placeholder="Vendedor" TextColor="#465B70" WidthRequest="150" IsReadOnly="True" FontSize="14"
                            VerticalOptions="Center" BackgroundColor="White"/>
                     <Entry x:Name="numero_facturaVentaEntry" Placeholder="Numero de factura" Keyboard="Numeric" HorizontalOptions="FillAndExpand" 
                            FontSize="14" VerticalOptions="Center" BackgroundColor="White"/>
@@ -22,7 +22,7 @@
                                 HorizontalOptions="Fill" BackgroundColor="White"/>
                 </StackLayout>
                 <StackLayout x:Name="stkProductos" Padding="0" Margin="0, 15, 0, 15">
-                    <Label HorizontalOptions="Start" Text="Agregar Producto" TextColor="#4DCCE8" FontSize="14" Visual="Material"/>
+                    <Label HorizontalOptions="Start" Text="Agregar Producto" TextColor="#465B70" FontSize="14" Visual="Material"/>
                     <Frame HasShadow="True" CornerRadius="10" Padding="0" Margin="0" BorderColor="#324A51" Visual="Material" BackgroundColor="White">
                         <StackLayout Visual="Material">
                             <StackLayout Orientation="Horizontal" Visual="Material">
@@ -56,10 +56,10 @@
                 </StackLayout>
                 <StackLayout Visual="Material">
                     <ListView x:Name="listProductos" HorizontalOptions="FillAndExpand" HeightRequest="150" VerticalScrollBarVisibility="Always" 
-                                ItemTapped="listProductos_ItemTapped" Visual="Material" SeparatorColor="#4DCCE8" BackgroundColor="#fafafd">
+                                ItemTapped="listProductos_ItemTapped" Visual="Material" SeparatorColor="#465B70" BackgroundColor="#fafafd">
                         <ListView.Header>
                             <StackLayout Orientation="Horizontal" Visual="Material">
-                                <Label Text="Lista productos" TextColor="#4DCCE8"/>
+                                <Label Text="Lista productos" TextColor="#465B70"/>
                             </StackLayout>
                         </ListView.Header>
                         <ListView.ItemTemplate>
@@ -76,7 +76,7 @@
                                             <ColumnDefinition Width="80"></ColumnDefinition>
                                             <ColumnDefinition Width="140"></ColumnDefinition>
                                         </Grid.ColumnDefinitions>
-                                        <Label Grid.Row="0" Grid.Column="0" FontSize="Medium" TextColor="#95B0B7" VerticalTextAlignment="Center" LineBreakMode="TailTruncation">
+                                        <Label Grid.Row="0" Grid.Column="0" FontSize="Medium" VerticalTextAlignment="Center" LineBreakMode="TailTruncation">
                                             <Label.FormattedText>
                                                 <FormattedString>
                                                     <Span Text="Producto: " FontSize="13" TextColor="Black"/>
@@ -84,7 +84,7 @@
                                                 </FormattedString>
                                             </Label.FormattedText>
                                         </Label>
-                                        <Label Grid.Row="0" Grid.Column="1" FontSize="Medium" TextColor="#95B0B7" VerticalTextAlignment="Center" LineBreakMode="TailTruncation">
+                                        <Label Grid.Row="0" Grid.Column="1" FontSize="Medium" VerticalTextAlignment="Center" LineBreakMode="TailTruncation">
                                             <Label.FormattedText>
                                                 <FormattedString>
                                                     <Span Text="   Cantidad: " FontSize="13" TextColor="Black"/>
@@ -92,7 +92,7 @@
                                                 </FormattedString>
                                             </Label.FormattedText>
                                         </Label>
-                                        <Label Grid.Row="0" Grid.Column="2" FontSize="Medium" TextColor="#95B0B7" VerticalTextAlignment="Center" LineBreakMode="TailTruncation">
+                                        <Label Grid.Row="0" Grid.Column="2" FontSize="Medium" VerticalTextAlignment="Center" LineBreakMode="TailTruncation">
                                             <Label.FormattedText>
                                                 <FormattedString>
                                                     <Span Text="   Descuento: " FontSize="13" TextColor="Black"/>
@@ -100,7 +100,7 @@
                                                 </FormattedString>
                                             </Label.FormattedText>
                                         </Label>
-                                        <Label Grid.Row="0" Grid.Column="3" FontSize="Medium" TextColor="#95B0B7" VerticalTextAlignment="Center" LineBreakMode="TailTruncation">
+                                        <Label Grid.Row="0" Grid.Column="3" FontSize="Medium" VerticalTextAlignment="Center" LineBreakMode="TailTruncation">
                                             <Label.FormattedText>
                                                 <FormattedString>
                                                     <Span Text="   Envases: " FontSize="13" TextColor="Black"/>
@@ -108,7 +108,7 @@
                                                 </FormattedString>
                                             </Label.FormattedText>
                                         </Label>
-                                        <Label Grid.Row="0" Grid.Column="4" FontSize="Medium" TextColor="#95B0B7" VerticalTextAlignment="Center" LineBreakMode="TailTruncation">
+                                        <Label Grid.Row="0" Grid.Column="4" FontSize="Medium" VerticalTextAlignment="Center" LineBreakMode="TailTruncation">
                                             <Label.FormattedText>
                                                 <FormattedString>
                                                     <Span Text="   Subtotal: " FontSize="13" TextColor="Black"/>

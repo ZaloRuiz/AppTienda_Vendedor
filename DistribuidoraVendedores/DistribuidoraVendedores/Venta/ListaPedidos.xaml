@@ -3,16 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="DistribuidoraVendedores.Venta.ListaPedidos"
              Visual="Material"
-             BackgroundColor="#324A51"
+             BackgroundColor="#ffffff"
              Title="Lista de pedidos">
   <!--Pages can be added as references or inline-->
     <ContentPage Title="Entregados">
         <ContentPage.ToolbarItems>
             <ToolbarItem x:Name="toolbar" Text="Agregar Venta" Clicked="ToolbarItem_Clicked"/>
+            <ToolbarItem x:Name="toolbarBuscarEnt" Text="Filtrar por cliente" Clicked="toolbarBuscarEnt_Clicked"/>
         </ContentPage.ToolbarItems>
         <StackLayout>
-            <SearchBar x:Name="sb_search_E" BackgroundColor="White" Placeholder="Buscar cliente..." TextColor="Black" FontFamily="15" IsVisible="true"/>
-            <ListView x:Name="listaEntregados" ItemTapped="OnItemSelectedE" SeparatorColor="#95B0B7" ItemsSource="{Binding ListaPedidosEnt}">
+            <ListView x:Name="listaEntregados" ItemTapped="OnItemSelectedE" SeparatorColor="#465B70" ItemsSource="{Binding ListaPedidosEnt}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
@@ -25,7 +25,7 @@
                                     <ColumnDefinition Width="250"></ColumnDefinition>
                                     <ColumnDefinition Width="*"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
-                                <Label Grid.Row="0" Grid.Column="0" FontSize="Medium" TextColor="#95B0B7" LineBreakMode="TailTruncation">
+                                <Label Grid.Row="0" Grid.Column="0" FontSize="Medium" TextColor="#000000" LineBreakMode="TailTruncation">
                                     <Label.FormattedText>
                                         <FormattedString>
                                             <Span Text="Codigo: "/>
@@ -33,7 +33,7 @@
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>
-                                <Label Grid.Row="0" Grid.Column="1" FontSize="Medium" TextColor="#95B0B7" LineBreakMode="TailTruncation">
+                                <Label Grid.Row="0" Grid.Column="1" FontSize="Medium" TextColor="#000000" LineBreakMode="TailTruncation">
                                     <Label.FormattedText>
                                         <FormattedString>
                                             <Span Text="Cliente: "/>
@@ -41,7 +41,7 @@
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>
-                                <Label Grid.Row="0" Grid.Column="2" FontSize="Medium" TextColor="#95B0B7" LineBreakMode="TailTruncation">
+                                <Label Grid.Row="0" Grid.Column="2" FontSize="Medium" TextColor="#000000" LineBreakMode="TailTruncation">
                                     <Label.FormattedText>
                                         <FormattedString>
                                             <Span Text="Total: "/>
@@ -75,7 +75,7 @@
                                 <ColumnDefinition Width="250"></ColumnDefinition>
                                 <ColumnDefinition Width="*"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
-                            <Label Grid.Row="0" Grid.Column="0" FontSize="Medium" TextColor="#95B0B7" LineBreakMode="TailTruncation">
+                            <Label Grid.Row="0" Grid.Column="0" FontSize="Medium" TextColor="#000000" LineBreakMode="TailTruncation">
                                 <Label.FormattedText>
                                     <FormattedString>
                                         <Span Text="Codigo: "/>
@@ -83,7 +83,7 @@
                                     </FormattedString>
                                 </Label.FormattedText>
                             </Label>
-                            <Label Grid.Row="0" Grid.Column="1" FontSize="Medium" TextColor="#95B0B7" LineBreakMode="TailTruncation">
+                            <Label Grid.Row="0" Grid.Column="1" FontSize="Medium" TextColor="#000000" LineBreakMode="TailTruncation">
                                 <Label.FormattedText>
                                     <FormattedString>
                                         <Span Text="Cliente: "/>
@@ -91,7 +91,7 @@
                                     </FormattedString>
                                 </Label.FormattedText>
                             </Label>
-                            <Label Grid.Row="0" Grid.Column="2" FontSize="Medium" TextColor="#95B0B7" LineBreakMode="TailTruncation">
+                            <Label Grid.Row="0" Grid.Column="2" FontSize="Medium" TextColor="#000000" LineBreakMode="TailTruncation">
                                 <Label.FormattedText>
                                     <FormattedString>
                                         <Span Text="Total: "/>
@@ -109,6 +109,7 @@
     <ContentPage Title="Cancelados">
         <ContentPage.ToolbarItems>
             <ToolbarItem x:Name="toolbarC" Text="Agregar Venta" Clicked="ToolbarItemC_Clicked"/>
+            <ToolbarItem x:Name="toolbarBuscarCanc" Text="Filtrar por cliente" Clicked="toolbarBuscarCanc_Clicked"/>
         </ContentPage.ToolbarItems>
         <ListView x:Name="listaCancelados" ItemTapped="OnItemSelectedC" SeparatorColor="#95B0B7" ItemsSource="{Binding ListaPedidosCanc}">
             <ListView.ItemTemplate>
@@ -123,7 +124,7 @@
                                 <ColumnDefinition Width="250"></ColumnDefinition>
                                 <ColumnDefinition Width="*"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
-                            <Label Grid.Row="0" Grid.Column="0" FontSize="Medium" TextColor="#95B0B7" LineBreakMode="TailTruncation">
+                            <Label Grid.Row="0" Grid.Column="0" FontSize="Medium" TextColor="#000000" LineBreakMode="TailTruncation">
                                 <Label.FormattedText>
                                     <FormattedString>
                                         <Span Text="Codigo: "/>
@@ -131,7 +132,7 @@
                                     </FormattedString>
                                 </Label.FormattedText>
                             </Label>
-                            <Label Grid.Row="0" Grid.Column="1" FontSize="Medium" TextColor="#95B0B7" LineBreakMode="TailTruncation">
+                            <Label Grid.Row="0" Grid.Column="1" FontSize="Medium" TextColor="#000000" LineBreakMode="TailTruncation">
                                 <Label.FormattedText>
                                     <FormattedString>
                                         <Span Text="Cliente: "/>
@@ -139,7 +140,7 @@
                                     </FormattedString>
                                 </Label.FormattedText>
                             </Label>
-                            <Label Grid.Row="0" Grid.Column="2" FontSize="Medium" TextColor="#95B0B7" LineBreakMode="TailTruncation">
+                            <Label Grid.Row="0" Grid.Column="2" FontSize="Medium" TextColor="#000000" LineBreakMode="TailTruncation">
                                 <Label.FormattedText>
                                     <FormattedString>
                                         <Span Text="Total: "/>

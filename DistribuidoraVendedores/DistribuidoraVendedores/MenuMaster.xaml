@@ -4,14 +4,14 @@
              x:Class="DistribuidoraVendedores.MenuMaster"
              Title="Master"
              Visual="Material"
-             BackgroundColor="#324A51">
+             BackgroundColor="#ffffff">
     <StackLayout>
         <ListView x:Name="MenuItemsListView"
               SeparatorVisibility="None"
               HasUnevenRows="true"
               ItemsSource="{Binding MenuItems}">
             <ListView.Header>
-                <Grid BackgroundColor="#4DCCE8">
+                <Grid BackgroundColor="#465B70">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
@@ -33,7 +33,7 @@
                 <DataTemplate>
                     <ViewCell>
                         <StackLayout Padding="15,10" HorizontalOptions="FillAndExpand">
-                            <Label VerticalOptions="FillAndExpand" VerticalTextAlignment="Center" Text="{Binding Title}" FontSize="20" TextColor="#95B0B7"
+                            <Label VerticalOptions="FillAndExpand" VerticalTextAlignment="Center" Text="{Binding Title}" FontSize="20" TextColor="#465B70"
                                    HorizontalTextAlignment="Center"/>
                         </StackLayout>
                     </ViewCell>

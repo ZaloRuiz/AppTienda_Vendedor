@@ -33,7 +33,7 @@ namespace DistribuidoraVendedores
 				MenuItems = new ObservableCollection<MenuMasterMenuItem>(new[]
 				{
 					new MenuMasterMenuItem { Id = 0, Title = "Inicio", TargetType = typeof(MenuDetail)},
-					new MenuMasterMenuItem { Id = 1, Title = "Compras", TargetType = typeof(Compra.ListaCompra)},
+					//new MenuMasterMenuItem { Id = 1, Title = "Compras", TargetType = typeof(Compra.ListaCompra)},
 					new MenuMasterMenuItem { Id = 2, Title = "Pedidos", TargetType = typeof(Venta.ListaPedidos)},
 					new MenuMasterMenuItem { Id = 3, Title = "Clientes", TargetType = typeof(Cliente.ListaCliente)},
 					new MenuMasterMenuItem { Id = 4, Title = "Productos", TargetType = typeof(Producto.ListaProducto)},

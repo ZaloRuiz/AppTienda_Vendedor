@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="DistribuidoraVendedores.Venta.MostrarVenta"
              Visual="Material"
-             BackgroundColor="#324A51"
+             BackgroundColor="#ffffff"
              Title="Mostrar pedido">
     <ContentPage.ToolbarItems>
         <ToolbarItem x:Name="toolbarAgreEdit" Text="Solicitar modificacion" Clicked="toolbarAgreEdit_Clicked"/>

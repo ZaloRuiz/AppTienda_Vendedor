@@ -3,25 +3,30 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="DistribuidoraVendedores.Cliente.AgregarCliente"
              Visual="Material"
-             BackgroundColor="#324A51"
+             BackgroundColor="#ffffff"
              Title="Agregar cliente">
     <ContentPage.Content>
         <ScrollView>
-            <StackLayout Padding="20">
-                <Entry x:Name="nombreEntry" HorizontalOptions="FillAndExpand" TextColor="Black" Placeholder="Nombre" FontSize="14" BackgroundColor="White"/>
-                <Entry x:Name="telefonoEntry" HorizontalOptions="FillAndExpand" TextColor="Black" Placeholder="Telefono" Keyboard="Numeric"
+            <StackLayout Padding="10">
+                <StackLayout Orientation="Horizontal">
+                    <Entry x:Name="nombreEntry" HorizontalOptions="FillAndExpand" TextColor="Black" PlaceholderColor="#465B70" Placeholder="Nombre" FontSize="14" BackgroundColor="White"/>
+                    <Entry x:Name="telefonoEntry" HorizontalOptions="FillAndExpand" TextColor="Black" PlaceholderColor="#465B70" Placeholder="Telefono" Keyboard="Numeric"
                        FontSize="14" BackgroundColor="White"/>
-                <Entry x:Name="direccionEntry" HorizontalOptions="FillAndExpand" TextColor="Black" Placeholder="Direccion" FontSize="14" BackgroundColor="White"/>
+                </StackLayout>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-                    <Entry x:Name="ubconfirmacionEntry" WidthRequest="300" Placeholder="Ubicacion" TextColor="Black" HorizontalOptions="FillAndExpand" 
+                    <Entry x:Name="direccionEntry" HorizontalOptions="FillAndExpand" TextColor="Black" PlaceholderColor="#465B70" Placeholder="Direccion" 
+                           FontSize="14" BackgroundColor="White"/>
+                    <Entry x:Name="ubconfirmacionEntry" WidthRequest="150" Placeholder="Ubicacion" PlaceholderColor="#465B70" TextColor="Black"  
                            FontSize="14" BackgroundColor="White"/>
                     <Entry x:Name="ubicacionLatitudEntry" IsVisible="False"/>
                     <Entry x:Name="ubicacionLongitudEntry" IsVisible="False"/>
-                    <Button x:Name="btnUbicacion" HorizontalOptions="FillAndExpand" Text="Obtener ubicacion" Clicked="BtnUbicacion_Clicked"/>
+                    <Button x:Name="btnUbicacion" HorizontalOptions="Fill" FontSize="14" Text="Obtener ubicacion" Clicked="BtnUbicacion_Clicked"/>
                 </StackLayout>
-                <Entry x:Name="razEntry" HorizontalOptions="FillAndExpand" Placeholder="Razon Social" TextColor="Black" FontSize="14" BackgroundColor="White"/>
-                <Entry x:Name="nitEntry" HorizontalOptions="FillAndExpand" Placeholder="NIT" TextColor="Black" Keyboard="Numeric"
+                <StackLayout Orientation="Horizontal">
+                    <Entry x:Name="razEntry" HorizontalOptions="FillAndExpand" Placeholder="Razon Social" PlaceholderColor="#465B70" TextColor="Black" FontSize="14" BackgroundColor="White"/>
+                    <Entry x:Name="nitEntry" HorizontalOptions="FillAndExpand" Placeholder="NIT" PlaceholderColor="#465B70" TextColor="Black" Keyboard="Numeric"
                        FontSize="14" BackgroundColor="White"/>
+                </StackLayout>
                 <StackLayout Padding="0, 20, 0, 20">
                     <Button Text="Guardar" x:Name="btnGuardarCliente" HeightRequest="50" Clicked="BtnGuardarCliente_Clicked"/>
                 </StackLayout>

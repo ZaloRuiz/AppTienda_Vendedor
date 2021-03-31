@@ -18,22 +18,15 @@ namespace DistribuidoraVendedores.Venta
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class ListaPedidos : TabbedPage
 	{
-		List<VentasNombre> Items;
 		ObservableCollection<VentasNombre> _listaPedidosEnt = new ObservableCollection<VentasNombre>();
 		ObservableCollection<VentasNombre> _listaPedidosPen = new ObservableCollection<VentasNombre>();
 		ObservableCollection<VentasNombre> _listaPedidosCanc = new ObservableCollection<VentasNombre>();
-		List<string> list_C = new List<string>();
+		List<string> list_C_P = new List<string>();
+		List<string> list_C_E = new List<string>();
+		List<string> list_C_C = new List<string>();
 		public ListaPedidos()
 		{
 			InitializeComponent();
-		}
-		private async void GetVenta()
-		{
-			if (CrossConnectivity.Current.IsConnected)
-			{
-				
-			}
-
 		}
 		protected async override void OnAppearing()
 		{
@@ -80,78 +73,11 @@ namespace DistribuidoraVendedores.Venta
 				{
 					await DisplayAlert("Error", "Algo salio mal, intentelo de nuevo por favor", "OK");
 				}
-				try
-				{
-					InitList_E();
-					//InitList_P();
-					//InitList_C();
-					InitSearchBar_E();
-					//InitSearchBar_p();
-					//InitSearchBar_C();
-					listaEntregados.BeginRefresh();
-					listaEntregados.EndRefresh();
-				}
-				catch (Exception err)
-				{
-					await DisplayAlert("Error", "Algo salio mal, intentelo de nuevo por favor", "OK");
-				}
 			}
 			else
 			{
 				await DisplayAlert("Error", "Necesitas estar conectado a internet", "OK");
 			}
-		}
-		async void InitList_E()
-		{
-			Items = new List<VentasNombre>();
-			try
-			{
-				foreach(var item in _listaPedidosEnt)
-				{
-					Items.Add(new VentasNombre
-					{
-						id_venta = item.id_venta,
-						fecha = item.fecha,
-						numero_factura = item.numero_factura,
-						nombre_cliente = item.nombre_cliente,
-						nombre_vendedor = item.nombre_vendedor,
-						tipo_venta = item.tipo_venta,
-						saldo = item.saldo,
-						total = item.total,
-						fecha_entrega = item.fecha_entrega,
-						estado = item.estado,
-						observacion = item.observacion
-					});
-				}
-			}
-			catch (Exception err)
-			{
-				await DisplayAlert("ERROR", err.ToString(), "OK");
-			}
-			listaEntregados.ItemsSource = Items;
-
-		}
-		void InitSearchBar_E()
-		{
-			sb_search_E.TextChanged += (s, e) => FilterItem_E(sb_search_E.Text);
-			sb_search_E.SearchButtonPressed += (s, e) => FilterItem_E(sb_search_E.Text);
-		}
-		private void FilterItem_E(string filter)
-		{
-			listaEntregados.BeginRefresh();
-			if (string.IsNullOrWhiteSpace(filter))
-			{
-				listaEntregados.ItemsSource = Items;
-			}
-			else if (string.IsNullOrEmpty(filter))
-			{
-				listaEntregados.ItemsSource = Items;
-			}
-			else
-			{
-				listaEntregados.ItemsSource = Items.Where(x => x.nombre_cliente.ToLower().Contains(filter.ToLower()));
-			}
-			listaEntregados.EndRefresh();
 		}
 		private void ToolbarItem_Clicked(object sender, EventArgs e)
 		{
@@ -197,14 +123,75 @@ namespace DistribuidoraVendedores.Venta
 		}
 		private async void toolbarBuscar_Clicked(object sender, EventArgs e)
 		{
-			
-			foreach(var item in _listaPedidosPen)
+			try
 			{
-				list_C.Add(item.nombre_cliente);
+				foreach (var item in _listaPedidosPen)
+				{
+					list_C_P.Add(item.nombre_cliente);
+				}
+				IEnumerable<string> array_C = list_C_P.Distinct<string>();
+				string _c_elegido = await DisplayActionSheet("Elija un cliente", null, null, array_C.ToArray());
+				if( _c_elegido != null)
+				{
+					listaPendientes.ItemsSource = _listaPedidosPen.Where(x => x.nombre_cliente.ToLower().Contains(_c_elegido.ToLower()));
+				}
+				else
+				{
+					listaPendientes.ItemsSource = _listaPedidosPen;
+				}
 			}
-			IEnumerable<string> array_C = list_C.Distinct<string>();
-			string _c_elegido = await DisplayActionSheet("Elija un cliente", "Cancelar", "Cerrar", array_C.ToArray());
-			listaPendientes.ItemsSource = _listaPedidosPen.Where(x => x.nombre_cliente.ToLower().Contains(_c_elegido.ToLower()));
+			catch (Exception err)
+			{
+
+			}
+		}
+		private async void toolbarBuscarEnt_Clicked(object sender, EventArgs e)
+		{
+			try
+			{
+				foreach (var item in _listaPedidosEnt)
+				{
+					list_C_E.Add(item.nombre_cliente);
+				}
+				IEnumerable<string> array_C = list_C_E.Distinct<string>();
+				string _c_elegido = await DisplayActionSheet("Elija un cliente", null, null, array_C.ToArray());
+				if (_c_elegido != null)
+				{
+					listaEntregados.ItemsSource = _listaPedidosEnt.Where(x => x.nombre_cliente.ToLower().Contains(_c_elegido.ToLower()));
+				}
+				else
+				{
+					listaEntregados.ItemsSource = _listaPedidosEnt;
+				}
+			}
+			catch (Exception err)
+			{
+
+			}
+		}
+		private async void toolbarBuscarCanc_Clicked(object sender, EventArgs e)
+		{
+			try
+			{
+				foreach (var item in _listaPedidosCanc)
+				{
+					list_C_C.Add(item.nombre_cliente);
+				}
+				IEnumerable<string> array_C = list_C_C.Distinct<string>();
+				string _c_elegido = await DisplayActionSheet("Elija un cliente", null, null, array_C.ToArray());
+				if (_c_elegido != null)
+				{
+					listaCancelados.ItemsSource = _listaPedidosCanc.Where(x => x.nombre_cliente.ToLower().Contains(_c_elegido.ToLower()));
+				}
+				else
+				{
+					listaCancelados.ItemsSource = _listaPedidosCanc;
+				}
+			}
+			catch(Exception err)
+			{
+
+			}
 		}
 	}
 }

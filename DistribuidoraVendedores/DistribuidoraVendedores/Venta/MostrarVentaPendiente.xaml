@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="DistribuidoraVendedores.Venta.MostrarVentaPendiente"
              Visual="Material"
-             BackgroundColor="#324A51"
+             BackgroundColor="#ffffff"
              Title="Mostrar pedidos pendientes">
     <ContentPage.ToolbarItems>
         <ToolbarItem x:Name="toolbarComp" Text="Completar pedido" Priority="0" Order="Secondary" Clicked="ToolbarItemComp_Clicked"/>
