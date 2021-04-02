@@ -32,10 +32,13 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <StackLayout Padding="15,10" HorizontalOptions="FillAndExpand">
-                            <Label VerticalOptions="FillAndExpand" VerticalTextAlignment="Center" Text="{Binding Title}" FontSize="20" TextColor="#465B70"
-                                   HorizontalTextAlignment="Center"/>
+                        <StackLayout Orientation="Horizontal" Grid.Column="1" Grid.Row="0" Padding="40,10">
+                            <Image Aspect="AspectFit" HorizontalOptions="Start" HeightRequest="20" VerticalOptions="FillAndExpand" 
+                                    Source="{Binding icon}"/>
+                            <Label VerticalOptions="FillAndExpand" VerticalTextAlignment="Center" Text="{Binding Title}" FontSize="20"  
+                                TextColor="#465B70" Padding="10,0,0,0"/>
                         </StackLayout>
+                        
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>

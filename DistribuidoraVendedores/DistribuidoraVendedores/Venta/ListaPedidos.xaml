@@ -8,11 +8,11 @@
   <!--Pages can be added as references or inline-->
     <ContentPage Title="Entregados">
         <ContentPage.ToolbarItems>
-            <ToolbarItem x:Name="toolbar" Text="Agregar Venta" Clicked="ToolbarItem_Clicked"/>
             <ToolbarItem x:Name="toolbarBuscarEnt" Text="Filtrar por cliente" Clicked="toolbarBuscarEnt_Clicked"/>
+            <ToolbarItem x:Name="toolbar" Text="Agregar Venta" Clicked="ToolbarItem_Clicked"/>
         </ContentPage.ToolbarItems>
         <StackLayout>
-            <ListView x:Name="listaEntregados" ItemTapped="OnItemSelectedE" SeparatorColor="#465B70" ItemsSource="{Binding ListaPedidosEnt}">
+            <ListView x:Name="listaEntregados" ItemTapped="OnItemSelectedE" SeparatorColor="#465B70">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
@@ -59,10 +59,10 @@
     </ContentPage>
     <ContentPage Title="Pendientes">
         <ContentPage.ToolbarItems>
-            <ToolbarItem x:Name="toolbarP" Text="Agregar Venta" Clicked="ToolbarItemP_Clicked"/>
             <ToolbarItem x:Name="toolbarBuscar" Text="Filtrar por cliente" Clicked="toolbarBuscar_Clicked"/>
+            <ToolbarItem x:Name="toolbarP" Text="Agregar Venta" Clicked="ToolbarItemP_Clicked"/>
         </ContentPage.ToolbarItems>
-        <ListView x:Name="listaPendientes" ItemTapped="OnItemSelectedP" SeparatorColor="#95B0B7" ItemsSource="{Binding ListaPedidosPen}">
+        <ListView x:Name="listaPendientes" ItemTapped="OnItemSelectedP" SeparatorColor="#95B0B7">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
@@ -108,10 +108,10 @@
     </ContentPage>
     <ContentPage Title="Cancelados">
         <ContentPage.ToolbarItems>
-            <ToolbarItem x:Name="toolbarC" Text="Agregar Venta" Clicked="ToolbarItemC_Clicked"/>
             <ToolbarItem x:Name="toolbarBuscarCanc" Text="Filtrar por cliente" Clicked="toolbarBuscarCanc_Clicked"/>
+            <ToolbarItem x:Name="toolbarC" Text="Agregar Venta" Clicked="ToolbarItemC_Clicked"/>
         </ContentPage.ToolbarItems>
-        <ListView x:Name="listaCancelados" ItemTapped="OnItemSelectedC" SeparatorColor="#95B0B7" ItemsSource="{Binding ListaPedidosCanc}">
+        <ListView x:Name="listaCancelados" ItemTapped="OnItemSelectedC" SeparatorColor="#95B0B7">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>

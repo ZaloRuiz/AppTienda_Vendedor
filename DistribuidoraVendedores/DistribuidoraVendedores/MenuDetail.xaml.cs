@@ -59,6 +59,7 @@ namespace DistribuidoraVendedores
 					_FechaInicio = primerDiaMesAct.ToString("yyyy-MM-dd");
 					_FechaFinal = ultimoDiaMesAct.ToString("yyyy-MM-dd");
 					GetPromedio();
+					await Task.Delay(300);
 					GetClientes();
 				}
 				catch (Exception err)
@@ -201,22 +202,29 @@ namespace DistribuidoraVendedores
 		{
 			if (CrossConnectivity.Current.IsConnected)
 			{
-				HttpClient client1 = new HttpClient();
-				var response1 = await client1.GetStringAsync("https://dmrbolivia.com/api_distribuidora/tipoproductos/listaTipoproducto.php");
-				var tipoproductos = JsonConvert.DeserializeObject<List<Tipo_producto>>(response1);
-				if (tipoproductos != null)
+				try
 				{
-					foreach (var item in tipoproductos)
+					HttpClient client1 = new HttpClient();
+					var response1 = await client1.GetStringAsync("https://dmrbolivia.com/api_distribuidora/tipoproductos/listaTipoproducto.php");
+					var tipoproductos = JsonConvert.DeserializeObject<List<Tipo_producto>>(response1);
+					if (tipoproductos != null)
 					{
-						if (item.nombre_tipo_producto == "Cerveza")
+						foreach (var item in tipoproductos)
 						{
-							_IdTpCerv = item.id_tipoproducto;
-						}
-						else if (item.nombre_tipo_producto == "Gaseosa")
-						{
-							_IdTpGase = item.id_tipoproducto;
+							if (item.nombre_tipo_producto == "Cerveza")
+							{
+								_IdTpCerv = item.id_tipoproducto;
+							}
+							else if (item.nombre_tipo_producto == "Gaseosa")
+							{
+								_IdTpGase = item.id_tipoproducto;
+							}
 						}
 					}
+				}
+				catch (Exception err)
+				{
+					await DisplayAlert("Error", err.ToString(), "OK");
 				}
 				try
 				{
@@ -246,8 +254,15 @@ namespace DistribuidoraVendedores
 						}
 					}
 					txtClienteCerv.TargetValue = _cantCervCli;
-					//Gaseosa
-					CantidadClientesVentas _cantCliVenGase = new CantidadClientesVentas()
+				}
+				catch (Exception err)
+				{
+					await DisplayAlert("Error", err.Message, "OK");
+				}
+				try
+				{ 
+				//Gaseosa
+				CantidadClientesVentas _cantCliVenGase = new CantidadClientesVentas()
 					{
 						id_vendedor = App._Id_Vendedor,
 						id_tipo_producto = _IdTpGase,
@@ -261,7 +276,7 @@ namespace DistribuidoraVendedores
 
 					var jsonRG = await resultG.Content.ReadAsStringAsync();
 					var lista_ventaG = JsonConvert.DeserializeObject<List<CantidadClientesVentas>>(jsonRG);
-					if (lista_ventas != null)
+					if (lista_ventaG != null)
 					{
 						foreach (var item in lista_ventaG)
 						{
@@ -301,7 +316,7 @@ namespace DistribuidoraVendedores
 				}
 				catch (Exception err)
 				{
-					await DisplayAlert("Error", err.ToString(), "OK");
+					await DisplayAlert("Error", err.Message, "OK");
 				}
 			}
 			else

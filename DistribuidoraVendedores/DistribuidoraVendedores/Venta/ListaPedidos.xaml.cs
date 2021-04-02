@@ -1,7 +1,9 @@
-﻿using DistribuidoraVendedores.Models;
+﻿using DistribuidoraVendedores.Helpers;
+using DistribuidoraVendedores.Models;
 using DistribuidoraVendedores.ViewModels;
 using Newtonsoft.Json;
 using Plugin.Connectivity;
+using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -33,6 +35,8 @@ namespace DistribuidoraVendedores.Venta
 			base.OnAppearing();
 			if (CrossConnectivity.Current.IsConnected)
 			{
+				string BusyReason = "Cargando...";
+				await PopupNavigation.Instance.PushAsync(new BusyPopup(BusyReason));
 				_listaPedidosEnt.Clear();
 				_listaPedidosPen.Clear();
 				_listaPedidosCanc.Clear();
@@ -68,6 +72,7 @@ namespace DistribuidoraVendedores.Venta
 					listaEntregados.ItemsSource = _listaPedidosEnt;
 					listaPendientes.ItemsSource = _listaPedidosPen;
 					listaCancelados.ItemsSource = _listaPedidosCanc;
+					await PopupNavigation.Instance.PopAsync();
 				}
 				catch (Exception err)
 				{

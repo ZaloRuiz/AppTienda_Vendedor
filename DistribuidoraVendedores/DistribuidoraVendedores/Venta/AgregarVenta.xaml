@@ -23,13 +23,13 @@
                 </StackLayout>
                 <StackLayout x:Name="stkProductos" Padding="0" Margin="0, 15, 0, 15">
                     <Label HorizontalOptions="Start" Text="Agregar Producto" TextColor="#465B70" FontSize="14" Visual="Material"/>
-                    <Frame HasShadow="True" CornerRadius="10" Padding="0" Margin="0" BorderColor="#324A51" Visual="Material" BackgroundColor="White">
+                    <Frame HasShadow="True" CornerRadius="10" Padding="0" Margin="0" BorderColor="#465B70" Visual="Material" BackgroundColor="White">
                         <StackLayout Visual="Material">
                             <StackLayout Orientation="Horizontal" Visual="Material">
                                 <StackLayout HorizontalOptions="FillAndExpand" Padding="10, 0, 0, 0">
                                     <local1:CustomAutoSuggestBox x:Name="entryNombreProd" WidthRequest="200" TextChanged="entryNombreProd_TextChanged_1"
                                                           SuggestionChosen="entryNombreProd_SuggestionChosen_1"  QuerySubmitted="entryNombreProd_QuerySubmitted_1"
-                                                          PlaceholderText="Buscar producto.." VerticalOptions="EndAndExpand" TextColor="Black"/>
+                                                          PlaceholderText="Buscar producto..." VerticalOptions="EndAndExpand" TextColor="Black"/>
                                 </StackLayout>
                                 <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
                                     <Entry x:Name="txtStock" TextColor="Black" Placeholder="Stock" VerticalOptions="Center" HorizontalOptions="FillAndExpand" 
