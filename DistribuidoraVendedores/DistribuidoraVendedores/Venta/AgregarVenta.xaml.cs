@@ -60,37 +60,51 @@ namespace DistribuidoraVendedores.Venta
         }
         private async void GetDataCliente()
         {
-            try
+            if (CrossConnectivity.Current.IsConnected)
             {
-                HttpClient client = new HttpClient();
-                var response = await client.GetStringAsync("https://dmrbolivia.com/api_distribuidora/clientes/listaCliente.php");
-                var clientes = JsonConvert.DeserializeObject<List<Models.Cliente>>(response).ToList();
-                clientePicker.ItemsSource = clientes;
-                foreach (var item in clientes)
+                try
                 {
-                    clienteList.Add(item);
+                    HttpClient client = new HttpClient();
+                    var response = await client.GetStringAsync("https://dmrbolivia.com/api_distribuidora/clientes/listaCliente.php");
+                    var clientes = JsonConvert.DeserializeObject<List<Models.Cliente>>(response).ToList();
+                    clientePicker.ItemsSource = clientes;
+                    foreach (var item in clientes)
+                    {
+                        clienteList.Add(item);
+                    }
+                }
+                catch (Exception error)
+                {
+                    await DisplayAlert("Error", "Algo salio mal, intentelo de nuevo por favor", "OK");
                 }
             }
-            catch (Exception error)
+            else
             {
-                await DisplayAlert("Error", "Algo salio mal, intentelo de nuevo por favor", "OK");
+                await DisplayAlert("Error", "Necesitas estar conectado a internet", "OK");
             }
         }
         public async void GetProductos()
         {
-            try
+            if (CrossConnectivity.Current.IsConnected)
             {
-                HttpClient client = new HttpClient();
-                var response = await client.GetStringAsync("https://dmrbolivia.com/api_distribuidora/productos/listaProductoNombres.php");
-                var prodsList = JsonConvert.DeserializeObject<List<ProductoNombre>>(response).ToList();
-                foreach (var item in prodsList)
+                try
                 {
-                    prods.Add(item);
+                    HttpClient client = new HttpClient();
+                    var response = await client.GetStringAsync("https://dmrbolivia.com/api_distribuidora/productos/listaProductoNombres.php");
+                    var prodsList = JsonConvert.DeserializeObject<List<ProductoNombre>>(response).ToList();
+                    foreach (var item in prodsList)
+                    {
+                        prods.Add(item);
+                    }
+                }
+                catch (Exception error)
+                {
+                    await DisplayAlert("Error", "Algo salio mal, intentelo de nuevo por favor", "OK");
                 }
             }
-            catch (Exception error)
+            else
             {
-                await DisplayAlert("Error", "Algo salio mal, intentelo de nuevo por favor", "OK");
+                await DisplayAlert("Error", "Necesitas estar conectado a internet", "OK");
             }
         }
         List<string> _listSuggestion = null;
@@ -359,188 +373,195 @@ namespace DistribuidoraVendedores.Venta
         }
         private async void BtnVentaGuardar_Clicked(object sender, EventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(numero_facturaVentaEntry.Text) || (!string.IsNullOrEmpty(numero_facturaVentaEntry.Text)))
+            if (CrossConnectivity.Current.IsConnected)
             {
-                if (!string.IsNullOrWhiteSpace(saldo_VentaEntry.Text) || (!string.IsNullOrEmpty(saldo_VentaEntry.Text)))
+                if (!string.IsNullOrWhiteSpace(numero_facturaVentaEntry.Text) || (!string.IsNullOrEmpty(numero_facturaVentaEntry.Text)))
                 {
-                    if (!string.IsNullOrWhiteSpace(totalVentaEntry.Text) || (!string.IsNullOrEmpty(totalVentaEntry.Text)))
+                    if (!string.IsNullOrWhiteSpace(saldo_VentaEntry.Text) || (!string.IsNullOrEmpty(saldo_VentaEntry.Text)))
                     {
-                        if (!string.IsNullOrWhiteSpace(entryObs.Text) || (!string.IsNullOrEmpty(entryObs.Text)))
+                        if (!string.IsNullOrWhiteSpace(totalVentaEntry.Text) || (!string.IsNullOrEmpty(totalVentaEntry.Text)))
                         {
-                            if (App._detalleVData.Count() > 0)
+                            if (!string.IsNullOrWhiteSpace(entryObs.Text) || (!string.IsNullOrEmpty(entryObs.Text)))
                             {
-                                string BusyReason = "Cargando...";
-                                try
+                                if (App._detalleVData.Count() > 0)
                                 {
-                                    await PopupNavigation.Instance.PushAsync(new BusyPopup(BusyReason));
-                                    if (estadoPick == "Entregado")
+                                    string BusyReason = "Cargando...";
+                                    try
                                     {
-                                        foreach (var item in App._detalleVData)
+                                        await PopupNavigation.Instance.PushAsync(new BusyPopup(BusyReason));
+                                        if (estadoPick == "Entregado")
                                         {
-                                            DetalleVenta detalleVenta = new DetalleVenta()
+                                            foreach (var item in App._detalleVData)
                                             {
-                                                cantidad = item.cantidad,
-                                                id_producto = item.id_producto,
-                                                precio_producto = item.precio_producto,
-                                                descuento = item.descuento,
-                                                sub_total = item.sub_total,
-                                                envases = item.envases,
-                                                factura = Convert.ToInt32(numero_facturaVentaEntry.Text)
-                                            };
+                                                DetalleVenta detalleVenta = new DetalleVenta()
+                                                {
+                                                    cantidad = item.cantidad,
+                                                    id_producto = item.id_producto,
+                                                    precio_producto = item.precio_producto,
+                                                    descuento = item.descuento,
+                                                    sub_total = item.sub_total,
+                                                    envases = item.envases,
+                                                    factura = Convert.ToInt32(numero_facturaVentaEntry.Text)
+                                                };
 
-                                            var json1 = JsonConvert.SerializeObject(detalleVenta);
-                                            var content1 = new StringContent(json1, Encoding.UTF8, "application/json");
-                                            HttpClient client1 = new HttpClient();
-                                            var result1 = await client1.PostAsync("https://dmrbolivia.com/api_distribuidora/ventas/agregarDetalleVenta.php", content1);
+                                                var json1 = JsonConvert.SerializeObject(detalleVenta);
+                                                var content1 = new StringContent(json1, Encoding.UTF8, "application/json");
+                                                HttpClient client1 = new HttpClient();
+                                                var result1 = await client1.PostAsync("https://dmrbolivia.com/api_distribuidora/ventas/agregarDetalleVenta.php", content1);
 
-                                            Models.Inventario inventario = new Models.Inventario()
+                                                Models.Inventario inventario = new Models.Inventario()
+                                                {
+                                                    id_producto = item.id_producto,
+                                                    fecha_inv = fechaVentaEntry.Date,
+                                                    numero_factura = Convert.ToInt32(numero_facturaVentaEntry.Text),
+                                                    detalle = "Venta",
+                                                    precio_compra = 0,
+                                                    unidades = item.cantidad,
+                                                    entrada_fisica = 0,
+                                                    salida_fisica = item.cantidad,
+                                                    saldo_fisica = item.stock - item.cantidad,
+                                                    entrada_valorado = 0,
+                                                    salida_valorado = item.cantidad * item.promedio,
+                                                    saldo_valorado = item.stock_valorado - (item.cantidad * item.promedio),
+                                                    promedio = item.stock_valorado / item.stock
+                                                };
+
+                                                var json2 = JsonConvert.SerializeObject(inventario);
+                                                var content2 = new StringContent(json2, Encoding.UTF8, "application/json");
+                                                HttpClient client2 = new HttpClient();
+                                                var result2 = await client2.PostAsync("https://dmrbolivia.com/api_distribuidora/inventarios/agregarInventario.php", content2);
+
+                                                Models.Producto producto = new Models.Producto()
+                                                {
+                                                    id_producto = item.id_producto,
+                                                    stock = item.stock - item.cantidad,
+                                                    stock_valorado = item.stock_valorado - (item.cantidad * item.promedio),
+                                                    promedio = item.stock_valorado / item.stock
+                                                };
+                                                var json3 = JsonConvert.SerializeObject(producto);
+                                                var content3 = new StringContent(json3, Encoding.UTF8, "application/json");
+                                                HttpClient client3 = new HttpClient();
+                                                var result3 = await client3.PostAsync("https://dmrbolivia.com/api_distribuidora/productos/editarProducto.php", content3);
+                                            }
+                                            Ventas ventas = new Ventas()
                                             {
-                                                id_producto = item.id_producto,
-                                                fecha_inv = fechaVentaEntry.Date,
+                                                fecha = fechaVentaEntry.Date,
                                                 numero_factura = Convert.ToInt32(numero_facturaVentaEntry.Text),
-                                                detalle = "Venta",
-                                                precio_compra = 0,
-                                                unidades = item.cantidad,
-                                                entrada_fisica = 0,
-                                                salida_fisica = item.cantidad,
-                                                saldo_fisica = item.stock - item.cantidad,
-                                                entrada_valorado = 0,
-                                                salida_valorado = item.cantidad * item.promedio,
-                                                saldo_valorado = item.stock_valorado - (item.cantidad * item.promedio),
-                                                promedio = item.stock_valorado / item.stock
+                                                id_cliente = idClienteSelected,
+                                                id_vendedor = App._Id_Vendedor,
+                                                tipo_venta = tipoVentaPick,
+                                                saldo = Convert.ToDecimal(saldo_VentaEntry.Text),
+                                                total = Convert.ToDecimal(totalVentaEntry.Text),
+                                                fecha_entrega = _fechaHoy,
+                                                estado = estadoPick,
+                                                observacion = entryObs.Text
                                             };
 
-                                            var json2 = JsonConvert.SerializeObject(inventario);
-                                            var content2 = new StringContent(json2, Encoding.UTF8, "application/json");
-                                            HttpClient client2 = new HttpClient();
-                                            var result2 = await client2.PostAsync("https://dmrbolivia.com/api_distribuidora/inventarios/agregarInventario.php", content2);
-
-                                            Models.Producto producto = new Models.Producto()
+                                            var json = JsonConvert.SerializeObject(ventas);
+                                            var content = new StringContent(json, Encoding.UTF8, "application/json");
+                                            HttpClient client = new HttpClient();
+                                            var result = await client.PostAsync("https://dmrbolivia.com/api_distribuidora/ventas/agregarVenta.php", content);
+                                            if (result.StatusCode == HttpStatusCode.OK)
                                             {
-                                                id_producto = item.id_producto,
-                                                stock = item.stock - item.cantidad,
-                                                stock_valorado = item.stock_valorado - (item.cantidad * item.promedio),
-                                                promedio = item.stock_valorado / item.stock
-                                            };
-                                            var json3 = JsonConvert.SerializeObject(producto);
-                                            var content3 = new StringContent(json3, Encoding.UTF8, "application/json");
-                                            HttpClient client3 = new HttpClient();
-                                            var result3 = await client3.PostAsync("https://dmrbolivia.com/api_distribuidora/productos/editarProducto.php", content3);
+                                                await PopupNavigation.Instance.PopAsync();
+                                                await DisplayAlert("OK", "Se agrego correctamente", "OK");
+                                                App._detalleVData.Clear();
+                                                await Navigation.PopAsync();
+                                            }
+                                            else
+                                            {
+                                                await PopupNavigation.Instance.PopAsync();
+                                                await DisplayAlert("Error", "Algo salio mal, intentelo de nuevo por favor", "OK");
+                                                await Navigation.PopAsync();
+                                            }
                                         }
-                                        Ventas ventas = new Ventas()
+                                        else if (estadoPick == "Pendiente")
                                         {
-                                            fecha = fechaVentaEntry.Date,
-                                            numero_factura = Convert.ToInt32(numero_facturaVentaEntry.Text),
-                                            id_cliente = idClienteSelected,
-                                            id_vendedor = App._Id_Vendedor,
-                                            tipo_venta = tipoVentaPick,
-                                            saldo = Convert.ToDecimal(saldo_VentaEntry.Text),
-                                            total = Convert.ToDecimal(totalVentaEntry.Text),
-                                            fecha_entrega = _fechaHoy,
-                                            estado = estadoPick,
-                                            observacion = entryObs.Text
-                                        };
+                                            foreach (var item in App._detalleVData)
+                                            {
+                                                DetalleVenta detalleVenta = new DetalleVenta()
+                                                {
+                                                    cantidad = item.cantidad,
+                                                    id_producto = item.id_producto,
+                                                    precio_producto = item.precio_producto,
+                                                    descuento = item.descuento,
+                                                    sub_total = item.sub_total,
+                                                    envases = item.envases,
+                                                    factura = Convert.ToInt32(numero_facturaVentaEntry.Text)
+                                                };
 
-                                        var json = JsonConvert.SerializeObject(ventas);
-                                        var content = new StringContent(json, Encoding.UTF8, "application/json");
-                                        HttpClient client = new HttpClient();
-                                        var result = await client.PostAsync("https://dmrbolivia.com/api_distribuidora/ventas/agregarVenta.php", content);
-                                        if (result.StatusCode == HttpStatusCode.OK)
-                                        {
-                                            await PopupNavigation.Instance.PopAsync();
-                                            await DisplayAlert("OK", "Se agrego correctamente", "OK");
-                                            App._detalleVData.Clear();
-                                            await Navigation.PopAsync();
-                                        }
-                                        else
-                                        {
-                                            await PopupNavigation.Instance.PopAsync();
-                                            await DisplayAlert("Error", "Algo salio mal, intentelo de nuevo por favor", "OK");
-                                            await Navigation.PopAsync();
+                                                var json1 = JsonConvert.SerializeObject(detalleVenta);
+                                                var content1 = new StringContent(json1, Encoding.UTF8, "application/json");
+                                                HttpClient client1 = new HttpClient();
+                                                var result1 = await client1.PostAsync("https://dmrbolivia.com/api_distribuidora/ventas/agregarDetalleVenta.php", content1);
+                                            }
+                                            Ventas ventas5 = new Ventas()
+                                            {
+                                                fecha = fechaVentaEntry.Date,
+                                                numero_factura = Convert.ToInt32(numero_facturaVentaEntry.Text),
+                                                id_cliente = idClienteSelected,
+                                                id_vendedor = App._Id_Vendedor,
+                                                tipo_venta = tipoVentaPick,
+                                                saldo = Convert.ToDecimal(saldo_VentaEntry.Text),
+                                                total = Convert.ToDecimal(totalVentaEntry.Text),
+                                                fecha_entrega = _fechaHoy,
+                                                estado = "Pendiente",
+                                                observacion = entryObs.Text
+                                            };
+
+                                            var json5 = JsonConvert.SerializeObject(ventas5);
+                                            var content5 = new StringContent(json5, Encoding.UTF8, "application/json");
+                                            HttpClient client5 = new HttpClient();
+                                            var result5 = await client5.PostAsync("https://dmrbolivia.com/api_distribuidora/ventas/agregarVenta.php", content5);
+                                            if (result5.StatusCode == HttpStatusCode.OK)
+                                            {
+                                                await PopupNavigation.Instance.PopAsync();
+                                                await DisplayAlert("OK", "Se agrego correctamente", "OK");
+                                                App._detalleVData.Clear();
+                                                await Navigation.PopAsync();
+                                            }
+                                            else
+                                            {
+                                                await PopupNavigation.Instance.PopAsync();
+                                                await DisplayAlert("Error", "Algo salio mal, intentelo de nuevo por favor", "OK");
+                                                await Navigation.PopAsync();
+                                            }
                                         }
                                     }
-                                    else if (estadoPick == "Pendiente")
+                                    catch (Exception error)
                                     {
-                                        foreach (var item in App._detalleVData)
-                                        {
-                                            DetalleVenta detalleVenta = new DetalleVenta()
-                                            {
-                                                cantidad = item.cantidad,
-                                                id_producto = item.id_producto,
-                                                precio_producto = item.precio_producto,
-                                                descuento = item.descuento,
-                                                sub_total = item.sub_total,
-                                                envases = item.envases,
-                                                factura = Convert.ToInt32(numero_facturaVentaEntry.Text)
-                                            };
-
-                                            var json1 = JsonConvert.SerializeObject(detalleVenta);
-                                            var content1 = new StringContent(json1, Encoding.UTF8, "application/json");
-                                            HttpClient client1 = new HttpClient();
-                                            var result1 = await client1.PostAsync("https://dmrbolivia.com/api_distribuidora/ventas/agregarDetalleVenta.php", content1);
-                                        }
-                                        Ventas ventas5 = new Ventas()
-                                        {
-                                            fecha = fechaVentaEntry.Date,
-                                            numero_factura = Convert.ToInt32(numero_facturaVentaEntry.Text),
-                                            id_cliente = idClienteSelected,
-                                            id_vendedor = App._Id_Vendedor,
-                                            tipo_venta = tipoVentaPick,
-                                            saldo = Convert.ToDecimal(saldo_VentaEntry.Text),
-                                            total = Convert.ToDecimal(totalVentaEntry.Text),
-                                            fecha_entrega = _fechaHoy,
-                                            estado = "Pendiente",
-                                            observacion = entryObs.Text
-                                        };
-
-                                        var json5 = JsonConvert.SerializeObject(ventas5);
-                                        var content5 = new StringContent(json5, Encoding.UTF8, "application/json");
-                                        HttpClient client5 = new HttpClient();
-                                        var result5 = await client5.PostAsync("https://dmrbolivia.com/api_distribuidora/ventas/agregarVenta.php", content5);
-                                        if (result5.StatusCode == HttpStatusCode.OK)
-                                        {
-                                            await PopupNavigation.Instance.PopAsync();
-                                            await DisplayAlert("OK", "Se agrego correctamente", "OK");
-                                            App._detalleVData.Clear();
-                                            await Navigation.PopAsync();
-                                        }
-                                        else
-                                        {
-                                            await PopupNavigation.Instance.PopAsync();
-                                            await DisplayAlert("Error", "Algo salio mal, intentelo de nuevo por favor", "OK");
-                                            await Navigation.PopAsync();
-                                        }
+                                        await PopupNavigation.Instance.PopAsync();
+                                        await DisplayAlert("Error", "Algo salio mal, intentelo de nuevo por favor", "OK");
                                     }
                                 }
-                                catch (Exception error)
+                                else
                                 {
-                                    await PopupNavigation.Instance.PopAsync();
-                                    await DisplayAlert("Error", "Algo salio mal, intentelo de nuevo por favor", "OK");
+                                    await DisplayAlert("Error", "Agregue un producto a la lista", "OK");
                                 }
                             }
                             else
                             {
-                                await DisplayAlert("Error", "Agregue un producto a la lista", "OK");
+                                await DisplayAlert("Campo vacio", "El campo de Observacion esta vacio", "Ok");
                             }
                         }
                         else
                         {
-                            await DisplayAlert("Campo vacio", "El campo de Observacion esta vacio", "Ok");
+                            await DisplayAlert("Campo vacio", "El campo de Total esta vacio", "Ok");
                         }
                     }
                     else
                     {
-                        await DisplayAlert("Campo vacio", "El campo de Total esta vacio", "Ok");
+                        await DisplayAlert("Campo vacio", "El campo de Saldo esta vacio", "Ok");
                     }
                 }
                 else
                 {
-                    await DisplayAlert("Campo vacio", "El campo de Saldo esta vacio", "Ok");
+                    await DisplayAlert("Campo vacio", "El campo de Factura esta vacio", "Ok");
                 }
             }
             else
             {
-                await DisplayAlert("Campo vacio", "El campo de Factura esta vacio", "Ok");
+                await DisplayAlert("Error", "Necesitas estar conectado a internet", "OK");
             }
         }
     }

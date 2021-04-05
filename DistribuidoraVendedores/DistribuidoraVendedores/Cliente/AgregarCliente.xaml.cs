@@ -51,66 +51,73 @@ namespace DistribuidoraVendedores.Cliente
 		}
 		private async void BtnGuardarCliente_Clicked(object sender, EventArgs e)
 		{
-			if(!string.IsNullOrWhiteSpace(nombreEntry.Text) || (!string.IsNullOrEmpty(nombreEntry.Text)))
+			if (CrossConnectivity.Current.IsConnected)
 			{
-				if (!string.IsNullOrWhiteSpace(telefonoEntry.Text) || (!string.IsNullOrEmpty(telefonoEntry.Text)))
+				if (!string.IsNullOrWhiteSpace(nombreEntry.Text) || (!string.IsNullOrEmpty(nombreEntry.Text)))
 				{
-					if (!string.IsNullOrWhiteSpace(direccionEntry.Text) || (!string.IsNullOrEmpty(direccionEntry.Text)))
+					if (!string.IsNullOrWhiteSpace(telefonoEntry.Text) || (!string.IsNullOrEmpty(telefonoEntry.Text)))
 					{
-						if (!string.IsNullOrWhiteSpace(ubicacionLatitudEntry.Text) || (!string.IsNullOrEmpty(ubicacionLatitudEntry.Text)))
+						if (!string.IsNullOrWhiteSpace(direccionEntry.Text) || (!string.IsNullOrEmpty(direccionEntry.Text)))
 						{
 							if (!string.IsNullOrWhiteSpace(ubicacionLatitudEntry.Text) || (!string.IsNullOrEmpty(ubicacionLatitudEntry.Text)))
 							{
-								if (!string.IsNullOrWhiteSpace(razEntry.Text) || (!string.IsNullOrEmpty(razEntry.Text)))
+								if (!string.IsNullOrWhiteSpace(ubicacionLatitudEntry.Text) || (!string.IsNullOrEmpty(ubicacionLatitudEntry.Text)))
 								{
-									if (!string.IsNullOrWhiteSpace(nitEntry.Text) || (!string.IsNullOrEmpty(nitEntry.Text)))
+									if (!string.IsNullOrWhiteSpace(razEntry.Text) || (!string.IsNullOrEmpty(razEntry.Text)))
 									{
-										try
+										if (!string.IsNullOrWhiteSpace(nitEntry.Text) || (!string.IsNullOrEmpty(nitEntry.Text)))
 										{
-											Models.Cliente cliente = new Models.Cliente()
+											try
 											{
-												nombre_cliente = nombreEntry.Text,
-												codigo_c = _codigo_cliente,
-												ubicacion_latitud = ubicacionLatitudEntry.Text,
-												ubicacion_longitud = ubicacionLongitudEntry.Text,
-												telefono = Convert.ToInt32(telefonoEntry.Text),
-												direccion_cliente = direccionEntry.Text,
-												razon_social = razEntry.Text,
-												nit = Convert.ToInt32(nitEntry.Text)
-											};
+												Models.Cliente cliente = new Models.Cliente()
+												{
+													nombre_cliente = nombreEntry.Text,
+													codigo_c = _codigo_cliente,
+													ubicacion_latitud = ubicacionLatitudEntry.Text,
+													ubicacion_longitud = ubicacionLongitudEntry.Text,
+													telefono = Convert.ToInt32(telefonoEntry.Text),
+													direccion_cliente = direccionEntry.Text,
+													razon_social = razEntry.Text,
+													nit = Convert.ToInt32(nitEntry.Text)
+												};
 
-											var json = JsonConvert.SerializeObject(cliente);
+												var json = JsonConvert.SerializeObject(cliente);
 
-											var content = new StringContent(json, Encoding.UTF8, "application/json");
+												var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-											HttpClient client = new HttpClient();
+												HttpClient client = new HttpClient();
 
-											var result = await client.PostAsync("https://dmrbolivia.com/api_distribuidora/clientes/agregarCliente.php", content);
+												var result = await client.PostAsync("https://dmrbolivia.com/api_distribuidora/clientes/agregarCliente.php", content);
 
-											if (result.StatusCode == HttpStatusCode.OK)
-											{
-												await DisplayAlert("GUARDADO", "Se agrego correctamente", "OK");
-												await Navigation.PopAsync();
+												if (result.StatusCode == HttpStatusCode.OK)
+												{
+													await DisplayAlert("GUARDADO", "Se agrego correctamente", "OK");
+													await Navigation.PopAsync();
+												}
+												else
+												{
+													await DisplayAlert("ERROR", "Algo salio mal, intentelo de nuevo por favor", "OK");
+													await Navigation.PopAsync();
+												}
 											}
-											else
+											catch (Exception err)
 											{
 												await DisplayAlert("ERROR", "Algo salio mal, intentelo de nuevo por favor", "OK");
-												await Navigation.PopAsync();
 											}
 										}
-										catch (Exception err)
+										else
 										{
-											await DisplayAlert("ERROR", "Algo salio mal, intentelo de nuevo por favor", "OK");
+											await DisplayAlert("Campo vacio", "El campo de Nit esta vacio", "Ok");
 										}
 									}
 									else
 									{
-										await DisplayAlert("Campo vacio", "El campo de Nit esta vacio", "Ok");
+										await DisplayAlert("Campo vacio", "El campo de Razon social esta vacio", "Ok");
 									}
 								}
 								else
 								{
-									await DisplayAlert("Campo vacio", "El campo de Razon social esta vacio", "Ok");
+									await DisplayAlert("Campo vacio", "El campo de Ubicacion esta vacio", "Ok");
 								}
 							}
 							else
@@ -120,22 +127,22 @@ namespace DistribuidoraVendedores.Cliente
 						}
 						else
 						{
-							await DisplayAlert("Campo vacio", "El campo de Ubicacion esta vacio", "Ok");
+							await DisplayAlert("Campo vacio", "El campo de Direccion esta vacio", "Ok");
 						}
 					}
 					else
 					{
-						await DisplayAlert("Campo vacio", "El campo de Direccion esta vacio", "Ok");
+						await DisplayAlert("Campo vacio", "El campo de Telefono esta vacio", "Ok");
 					}
 				}
 				else
 				{
-					await DisplayAlert("Campo vacio", "El campo de Telefono esta vacio", "Ok");
+					await DisplayAlert("Campo vacio", "El campo de Nombre esta vacio", "Ok");
 				}
 			}
 			else
 			{
-				await DisplayAlert("Campo vacio", "El campo de Nombre esta vacio", "Ok");
+				await DisplayAlert("Error", "Necesitas estar conectado a internet", "OK");
 			}
 		}
 		async void BtnUbicacion_Clicked(object sender, EventArgs e)
