@@ -76,22 +76,29 @@ namespace DistribuidoraVendedores
 		{
 			if (CrossConnectivity.Current.IsConnected)
 			{
-				HttpClient client1 = new HttpClient();
-				var response1 = await client1.GetStringAsync("https://dmrbolivia.com/api_distribuidora/tipoproductos/listaTipoproducto.php");
-				var tipoproductos = JsonConvert.DeserializeObject<List<Tipo_producto>>(response1);
-				if (tipoproductos != null)
+				try
 				{
-					foreach (var item in tipoproductos)
+					HttpClient client1 = new HttpClient();
+					var response1 = await client1.GetStringAsync("https://dmrbolivia.com/api_distribuidora/tipoproductos/listaTipoproducto.php");
+					var tipoproductos = JsonConvert.DeserializeObject<List<Tipo_producto>>(response1);
+					if (tipoproductos != null)
 					{
-						if (item.nombre_tipo_producto == "Cerveza")
+						foreach (var item in tipoproductos)
 						{
-							_IdTpCerv = item.id_tipoproducto;
-						}
-						else if (item.nombre_tipo_producto == "Gaseosa")
-						{
-							_IdTpGase = item.id_tipoproducto;
+							if (item.nombre_tipo_producto == "Cerveza")
+							{
+								_IdTpCerv = item.id_tipoproducto;
+							}
+							else if (item.nombre_tipo_producto == "Gaseosa")
+							{
+								_IdTpGase = item.id_tipoproducto;
+							}
 						}
 					}
+				}
+				catch (Exception err)
+				{
+					await DisplayAlert("Error", "Algo salio mal, intentelo de nuevo por favor", "OK");
 				}
 				try
 				{
@@ -121,7 +128,7 @@ namespace DistribuidoraVendedores
 					}
 					else
 					{
-						await DisplayAlert("ERROR", lista_Ccerv.Count().ToString(), "OK"); 
+						await DisplayAlert("ERROR", "Algo salio mal, intentelo de nuevo por favor", "OK"); 
 					}
 					_PromCerv = _cantCerv / 24;
 					txtPromedioCerv.TargetValue = _PromCerv;
@@ -310,13 +317,13 @@ namespace DistribuidoraVendedores
 					}
 					else
 					{
-						await DisplayAlert("Error", "Query null", "OK");
+						await DisplayAlert("Error", "Algo salio mal, intentelo de nuevo por favor", "OK");
 					}
 					txtClienteTotal.TargetValue = _CantCliTotal;
 				}
 				catch (Exception err)
 				{
-					await DisplayAlert("Error", err.Message, "OK");
+					await DisplayAlert("Error", err.ToString(), "OK");
 				}
 			}
 			else

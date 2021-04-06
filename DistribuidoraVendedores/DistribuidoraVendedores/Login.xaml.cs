@@ -1,6 +1,7 @@
 ﻿using DistribuidoraVendedores.Helpers;
 using DistribuidoraVendedores.Models;
 using Newtonsoft.Json;
+using Plugin.Connectivity;
 using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
@@ -25,53 +26,62 @@ namespace DistribuidoraVendedores
 
 		private async void btnIngresar_Clicked(object sender, EventArgs e)
 		{
-			if (!string.IsNullOrWhiteSpace(entryUsuario.Text) || (!string.IsNullOrEmpty(entryUsuario.Text)))
+			if (CrossConnectivity.Current.IsConnected)
 			{
-				if(!string.IsNullOrWhiteSpace(entryPassword.Text) || (!string.IsNullOrEmpty(entryPassword.Text)))
+				if (!string.IsNullOrWhiteSpace(entryUsuario.Text) || (!string.IsNullOrEmpty(entryUsuario.Text)))
 				{
-					await PopupNavigation.Instance.PushAsync(new BusyPopup(BusyReason));
-					try
+					if (!string.IsNullOrWhiteSpace(entryPassword.Text) || (!string.IsNullOrEmpty(entryPassword.Text)))
 					{
-						HttpClient client = new HttpClient();
-						var response = await client.GetStringAsync("https://dmrbolivia.com/api_distribuidora/vendedores/listaVendedores.php");
-						var vendedores = JsonConvert.DeserializeObject<List<Vendedores>>(response);
-
-						foreach (var item in vendedores)
+						await PopupNavigation.Instance.PushAsync(new BusyPopup(BusyReason));
+						try
 						{
-							if (entryUsuario.Text.ToLower() == item.usuario)
+							HttpClient client = new HttpClient();
+							var response = await client.GetStringAsync("https://dmrbolivia.com/api_distribuidora/vendedores/listaVendedores.php");
+							var vendedores = JsonConvert.DeserializeObject<List<Vendedores>>(response);
+
+							foreach (var item in vendedores)
 							{
-								if (entryPassword.Text.ToLower() == item.password)
+								if (entryUsuario.Text.ToLower() == item.usuario)
 								{
-									App._Id_Vendedor = item.id_vendedor;
-									App._Nombre_Vendedor = item.nombre;
-									entryPassword.Text = string.Empty;
-									await Navigation.PushModalAsync(new Menu());
-									
-								}
-								else
-								{
-									await PopupNavigation.Instance.PopAsync();
-									entryPassword.Text = string.Empty;
-									await DisplayAlert("Error", "Contraseña incorrecta", "Ok");
+									if (entryPassword.Text.ToLower() == item.password)
+									{
+										App._Id_Vendedor = item.id_vendedor;
+										App._Nombre_Vendedor = item.nombre;
+										entryPassword.Text = string.Empty;
+										Application.Current.MainPage = new AppShell();
+										await Navigation.PushModalAsync(new AppShell());
+
+									}
+									else
+									{
+										await PopupNavigation.Instance.PopAsync();
+										entryPassword.Text = string.Empty;
+										await DisplayAlert("Error", "Contraseña incorrecta", "Ok");
+									}
 								}
 							}
 						}
+						catch (Exception err)
+						{
+							//await PopupNavigation.Instance.PopAsync();
+							//await DisplayAlert("Error", "Algo salio mal, intentelo de nuevo por favor", "OK");
+							await DisplayAlert("Error", err.ToString(), "OK");
+						}
+						await PopupNavigation.Instance.PopAsync();
 					}
-					catch(Exception err)
+					else
 					{
-						//await PopupNavigation.Instance.PopAsync();
-						await DisplayAlert("Error", err.ToString(), "OK");
+						await DisplayAlert("Campo vacio", "El campo de Contraseña esta vacio", "Ok");
 					}
-					await PopupNavigation.Instance.PopAsync();
 				}
 				else
 				{
-					await DisplayAlert("Campo vacio", "El campo de Contraseña esta vacio", "Ok");
+					await DisplayAlert("Campo vacio", "El campo de Usuario esta vacio", "Ok");
 				}
 			}
 			else
 			{
-				await DisplayAlert("Campo vacio", "El campo de Usuario esta vacio", "Ok");
+				await DisplayAlert("Error", "Necesitas estar conectado a internet", "OK");
 			}
 		}
 	}

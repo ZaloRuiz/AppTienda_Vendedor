@@ -18,7 +18,7 @@
                                 FontSize="14" BackgroundColor="White"/>
                 </StackLayout>
                 <StackLayout x:Name="stkProductos" Padding="10">
-                    <Label HorizontalOptions="Start" Text="Agregar Producto" TextColor="#4DCCE8" FontSize="14"/>
+                    <Label HorizontalOptions="Start" Text="Agregar Producto" TextColor="#465B70" FontSize="14"/>
                     <Frame HasShadow="True" CornerRadius="10" Padding="0" Margin="0" BorderColor="#324A51" BackgroundColor="White">
                         <StackLayout>
                             <StackLayout Orientation="Horizontal">
@@ -55,7 +55,7 @@
                                   ItemTapped="listProductos_ItemTapped" Visual="Material" SeparatorColor="#4DCCE8" BackgroundColor="#fafafd">
                         <ListView.Header>
                             <StackLayout Orientation="Horizontal">
-                                <Label Text="Lista productos" TextColor="#4DCCE8"/>
+                                <Label Text="Lista productos" TextColor="#465B70"/>
                             </StackLayout>
                         </ListView.Header>
                         <ListView.ItemTemplate>
