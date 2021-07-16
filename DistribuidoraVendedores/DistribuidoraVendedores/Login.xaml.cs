@@ -48,9 +48,9 @@ namespace DistribuidoraVendedores
 										App._Id_Vendedor = item.id_vendedor;
 										App._Nombre_Vendedor = item.nombre;
 										entryPassword.Text = string.Empty;
+										await PopupNavigation.Instance.PopAsync();
 										Application.Current.MainPage = new AppShell();
 										await Navigation.PushModalAsync(new AppShell());
-
 									}
 									else
 									{
@@ -67,7 +67,6 @@ namespace DistribuidoraVendedores
 							//await DisplayAlert("Error", "Algo salio mal, intentelo de nuevo por favor", "OK");
 							await DisplayAlert("Error", err.ToString(), "OK");
 						}
-						await PopupNavigation.Instance.PopAsync();
 					}
 					else
 					{

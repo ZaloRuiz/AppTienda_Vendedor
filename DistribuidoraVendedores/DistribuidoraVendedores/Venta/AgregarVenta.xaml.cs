@@ -67,7 +67,6 @@ namespace DistribuidoraVendedores.Venta
                     HttpClient client = new HttpClient();
                     var response = await client.GetStringAsync("https://dmrbolivia.com/api_distribuidora/clientes/listaCliente.php");
                     var clientes = JsonConvert.DeserializeObject<List<Models.Cliente>>(response).ToList();
-                    clientePicker.ItemsSource = clientes;
                     foreach (var item in clientes)
                     {
                         clienteList.Add(item);
@@ -562,6 +561,76 @@ namespace DistribuidoraVendedores.Venta
             else
             {
                 await DisplayAlert("Error", "Necesitas estar conectado a internet", "OK");
+            }
+        }
+        private async void entryClienteRS_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs e)
+        {
+            App.Current.On<Android>().UseWindowSoftInputModeAdjust(WindowSoftInputModeAdjust.Resize);
+            try
+            {
+                if (e.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+                {
+                    List<string> _nameListC = new List<string>();
+                    foreach (var item in clienteList.Distinct())
+                    {
+                        _nameListC.Add(item.razon_social);
+                    }
+                    _listSuggestion = _nameListC.Where(x => x.ToLower().Contains(sender.Text.ToLower())).ToList();
+                    sender.ItemsSource = _listSuggestion;
+                }
+            }
+            catch (Exception err)
+            {
+                await DisplayAlert("ERROR", "Algo salio mal, intentelo de nuevo", "OK");
+            }
+        }
+
+        private async void entryClienteRS_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs e)
+        {
+            try
+            {
+                var selectedItem = e.SelectedItem.ToString();
+                sender.Text = selectedItem;
+                if (sender.Text != string.Empty)
+                {
+                    clientePick = selectedItem;
+                    try
+                    {
+                        foreach (var item in clienteList)
+                        {
+                            if (clientePick == item.razon_social)
+                            {
+                                idClienteSelected = item.id_cliente;
+                            }
+                        }
+                    }
+                    catch (Exception err)
+                    {
+                        await DisplayAlert("ERROR", "Algo salio mal, intentelo de nuevo", "OK");
+                    }
+                }
+            }
+            catch (Exception err)
+            {
+                await DisplayAlert("ERROR", "Algo salio mal, intentelo de nuevo", "OK");
+            }
+        }
+
+        private async void entryClienteRS_QuerySubmitted(object sender, AutoSuggestBoxQuerySubmittedEventArgs e)
+        {
+            try
+            {
+                if (e.ChosenSuggestion != null)
+                {
+                    entryClienteRS.Text = e.ChosenSuggestion.ToString();
+                }
+                else
+                {
+                }
+            }
+            catch (Exception err)
+            {
+                await DisplayAlert("ERROR", "Algo salio mal, intentelo de nuevo", "OK");
             }
         }
     }

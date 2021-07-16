@@ -29,6 +29,7 @@ namespace DistribuidoraVendedores.Venta
 		public ListaPedidos()
 		{
 			InitializeComponent();
+			AgregarBotones();
 		}
 		protected async override void OnAppearing()
 		{
@@ -84,6 +85,26 @@ namespace DistribuidoraVendedores.Venta
 				await DisplayAlert("Error", "Necesitas estar conectado a internet", "OK");
 			}
 		}
+		private void AgregarBotones()
+		{
+			ToolbarItem toolbar = new ToolbarItem
+			{
+				Text = "Agregar Venta",
+				Order = ToolbarItemOrder.Primary,
+				Priority = 2
+			};
+			this.ToolbarItems.Add(toolbar);
+			toolbar.Clicked += ToolbarItem_Clicked;
+
+			ToolbarItem toolbarBuscarEnt = new ToolbarItem
+			{
+				Text = "Filtrar por cliente",
+				Order = ToolbarItemOrder.Secondary,
+				Priority = 1
+			};
+			this.ToolbarItems.Add(toolbarBuscarEnt);
+			toolbarBuscarEnt.Clicked += toolbarBuscarEnt_Clicked;
+		}
 		private void ToolbarItem_Clicked(object sender, EventArgs e)
 		{
 			Navigation.PushAsync(new AgregarVenta());
@@ -132,13 +153,13 @@ namespace DistribuidoraVendedores.Venta
 			{
 				foreach (var item in _listaPedidosPen)
 				{
-					list_C_P.Add(item.nombre_cliente);
+					list_C_P.Add(item.razon_social);
 				}
 				IEnumerable<string> array_C = list_C_P.Distinct<string>();
 				string _c_elegido = await DisplayActionSheet("Elija un cliente", null, null, array_C.ToArray());
 				if( _c_elegido != null)
 				{
-					listaPendientes.ItemsSource = _listaPedidosPen.Where(x => x.nombre_cliente.ToLower().Contains(_c_elegido.ToLower()));
+					listaPendientes.ItemsSource = _listaPedidosPen.Where(x => x.razon_social.ToLower().Contains(_c_elegido.ToLower()));
 				}
 				else
 				{
@@ -156,13 +177,13 @@ namespace DistribuidoraVendedores.Venta
 			{
 				foreach (var item in _listaPedidosEnt)
 				{
-					list_C_E.Add(item.nombre_cliente);
+					list_C_E.Add(item.razon_social);
 				}
 				IEnumerable<string> array_C = list_C_E.Distinct<string>();
 				string _c_elegido = await DisplayActionSheet("Elija un cliente", null, null, array_C.ToArray());
 				if (_c_elegido != null)
 				{
-					listaEntregados.ItemsSource = _listaPedidosEnt.Where(x => x.nombre_cliente.ToLower().Contains(_c_elegido.ToLower()));
+					listaEntregados.ItemsSource = _listaPedidosEnt.Where(x => x.razon_social.ToLower().Contains(_c_elegido.ToLower()));
 				}
 				else
 				{
@@ -180,13 +201,13 @@ namespace DistribuidoraVendedores.Venta
 			{
 				foreach (var item in _listaPedidosCanc)
 				{
-					list_C_C.Add(item.nombre_cliente);
+					list_C_C.Add(item.razon_social);
 				}
 				IEnumerable<string> array_C = list_C_C.Distinct<string>();
 				string _c_elegido = await DisplayActionSheet("Elija un cliente", null, null, array_C.ToArray());
 				if (_c_elegido != null)
 				{
-					listaCancelados.ItemsSource = _listaPedidosCanc.Where(x => x.nombre_cliente.ToLower().Contains(_c_elegido.ToLower()));
+					listaCancelados.ItemsSource = _listaPedidosCanc.Where(x => x.razon_social.ToLower().Contains(_c_elegido.ToLower()));
 				}
 				else
 				{

@@ -1,4 +1,5 @@
 ﻿using DistribuidoraVendedores.Models;
+using DistribuidoraVendedores.Venta;
 using Newtonsoft.Json;
 using Plugin.Connectivity;
 using System;
@@ -37,6 +38,7 @@ namespace DistribuidoraVendedores
 		public MenuDetail()
 		{
 			InitializeComponent();
+			AgregarBotones();
 		}
 		protected async override void OnAppearing()
 		{
@@ -71,6 +73,20 @@ namespace DistribuidoraVendedores
 			{
 				await DisplayAlert("Error", "Necesitas estar conectado a internet", "OK");
 			}
+		}
+		private void AgregarBotones()
+		{
+			ToolbarItem toolbar = new ToolbarItem
+			{
+				Text = "Agregar Venta",
+				Order = ToolbarItemOrder.Primary,
+			};
+			this.ToolbarItems.Add(toolbar);
+			toolbar.Clicked += ToolbarItem_Clicked;
+		}
+		private async void ToolbarItem_Clicked(object sender, EventArgs e)
+		{
+			await Shell.Current.Navigation.PushAsync(new AgregarVenta(), true);
 		}
 		public async void GetPromedio()
 		{
