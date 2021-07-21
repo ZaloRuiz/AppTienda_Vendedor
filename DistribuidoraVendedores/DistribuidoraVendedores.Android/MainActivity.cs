@@ -7,6 +7,8 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using Plugin.Permissions;
+using Xamarin.Forms;
+using DistribuidoraVendedores.Helpers;
 
 namespace DistribuidoraVendedores.Droid
 {
@@ -21,6 +23,17 @@ namespace DistribuidoraVendedores.Droid
             base.OnCreate(savedInstanceState);
 
             this.Window.AddFlags(WindowManagerFlags.KeepScreenOn);
+
+            //Reportes de ventas diarias
+            MessagingCenter.Subscribe<ListaR_VentaDiaria>(this, "allowPortrait", sender =>
+            {
+                RequestedOrientation = ScreenOrientation.Portrait;
+            });
+            //Reportes de ventas diarias
+            MessagingCenter.Subscribe<ListaR_VentaDiaria>(this, "preventPortrait", sender =>
+            {
+                RequestedOrientation = ScreenOrientation.Landscape;
+            });
 
             Xamarin.Forms.DataGrid.DataGridComponent.Init();
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);

@@ -37,6 +37,7 @@ namespace DistribuidoraVendedores
 					new MenuMasterMenuItem { Id = 2, Title = "Clientes", TargetType = typeof(Cliente.ListaCliente), icon="icon_cliente.png"},
 					new MenuMasterMenuItem { Id = 3, Title = "Productos", TargetType = typeof(Producto.ListaProducto), icon="icon_producto.png"},
 					new MenuMasterMenuItem { Id = 4, Title = "Inventario", TargetType = typeof(Inventario.Inventario), icon="icon_inventario.png"},
+					new MenuMasterMenuItem { Id = 5, Title = "Reportes", TargetType = typeof(Inventario.R_VentaDiaria), icon="icon_reporte.png"},
 				});
 			}
 

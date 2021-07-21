@@ -15,7 +15,7 @@
     <Shell.FlyoutHeaderTemplate>
         <DataTemplate>
             <ContentView BackgroundColor="#465B70" HeightRequest="130">
-                <Label Text="Distribuidora Fabio" TextColor="White" FontSize="Large" VerticalOptions="Center" HorizontalOptions="Center"/>
+                <Label Text="Distribuidora" TextColor="White" FontSize="Large" VerticalOptions="Center" HorizontalOptions="Center"/>
             </ContentView>
         </DataTemplate>
     </Shell.FlyoutHeaderTemplate>
@@ -50,5 +50,8 @@
     </FlyoutItem>
     <FlyoutItem Title="Inventario" Icon="icon_inventario" Style="{StaticResource MenuShell}">
         <ShellContent ContentTemplate="{DataTemplate inventario:Inventario}"/>
+    </FlyoutItem>
+    <FlyoutItem Title="Reportes" Icon="icon_reporte" Style="{StaticResource MenuShell}">
+        <ShellContent ContentTemplate="{DataTemplate inventario:R_VentaDiaria}"/>
     </FlyoutItem>
 </Shell>
