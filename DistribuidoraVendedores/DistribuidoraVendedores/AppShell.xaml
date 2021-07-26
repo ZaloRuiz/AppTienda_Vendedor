@@ -36,9 +36,6 @@
     <FlyoutItem Title="Inicio" Icon="icon_inicio.png" Style="{StaticResource MenuShell}">
         <ShellContent ContentTemplate="{DataTemplate local:MenuDetail}"/>
     </FlyoutItem>
-    <FlyoutItem Title="Compras" Icon="icon_compra.png" Style="{StaticResource MenuShell}">
-        <ShellContent ContentTemplate="{DataTemplate compra:ListaCompra}"/>
-    </FlyoutItem>
     <FlyoutItem Title="Pedidos" Icon="icon_pedido.png" Style="{StaticResource MenuShell}">
         <ShellContent ContentTemplate="{DataTemplate venta:ListaPedidos}"/>
     </FlyoutItem>
@@ -51,7 +48,10 @@
     <FlyoutItem Title="Inventario" Icon="icon_inventario" Style="{StaticResource MenuShell}">
         <ShellContent ContentTemplate="{DataTemplate inventario:Inventario}"/>
     </FlyoutItem>
-    <FlyoutItem Title="Reportes" Icon="icon_reporte" Style="{StaticResource MenuShell}">
+    <FlyoutItem Title="Reporte venta diaria" Icon="icon_reporte" Style="{StaticResource MenuShell}">
         <ShellContent ContentTemplate="{DataTemplate inventario:R_VentaDiaria}"/>
+    </FlyoutItem>
+    <FlyoutItem Title="Reporte venta diaria" Icon="icon_reporte" Style="{StaticResource MenuShell}">
+        <ShellContent ContentTemplate="{DataTemplate inventario:MenuReportes}"/>
     </FlyoutItem>
 </Shell>

@@ -34,6 +34,16 @@ namespace DistribuidoraVendedores.Droid
             {
                 RequestedOrientation = ScreenOrientation.Landscape;
             });
+            //Reportes de inventario diario
+            MessagingCenter.Subscribe<ListaR_InventarioDia>(this, "allowPortrait", sender =>
+            {
+                RequestedOrientation = ScreenOrientation.Portrait;
+            });
+            //Reportes de inventario diario
+            MessagingCenter.Subscribe<ListaR_InventarioDia>(this, "preventPortrait", sender =>
+            {
+                RequestedOrientation = ScreenOrientation.Landscape;
+            });
 
             Xamarin.Forms.DataGrid.DataGridComponent.Init();
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
