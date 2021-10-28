@@ -19,8 +19,8 @@
                     </StackLayout>
                     <Entry x:Name="vendedorEntry" Placeholder="Vendedor" TextColor="#465B70" WidthRequest="150" IsReadOnly="True" FontSize="14"
                            VerticalOptions="Center" BackgroundColor="White"/>
-                    <Entry x:Name="numero_facturaVentaEntry" Placeholder="Numero de factura" Keyboard="Numeric"  
-                           FontSize="14" VerticalOptions="Center" BackgroundColor="White" WidthRequest="150"/>
+                    <Entry x:Name="numero_facturaVentaEntry" Placeholder="Numero de factura" Keyboard="Numeric" IsReadOnly="True"
+                           FontSize="14" VerticalOptions="Center" BackgroundColor="White" WidthRequest="150" TextChanged="numero_facturaVentaEntry_TextChanged"/>
                     <DatePicker x:Name="fechaVentaEntry" MaximumDate="12/31/2030" Format="dd/MM/yyyy" MinimumDate="01/01/2010" FontSize="14"  
                                 HorizontalOptions="Fill" BackgroundColor="White"/>
                 </StackLayout>
